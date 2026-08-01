@@ -103,13 +103,22 @@ async function load() {
       return;
     }
 
+    // Colunas fixas: Franquia, Matrículas, Faturamento, Pontos
+    const ranked = rows.slice().sort((a, b) => Number(b[3] || 0) - Number(a[3] || 0));
+
+    const formatInt = n => Number(n || 0).toLocaleString("pt-BR");
+    const formatMoney = n => Number(n || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+
     let html = "<table><thead><tr><th>#</th>";
     cols.forEach(c => html += `<th>${escapeHtml(c)}</th>`);
     html += "</tr></thead><tbody>";
 
-    rows.forEach((row, i) => {
+    ranked.forEach((row, i) => {
       html += `<tr><td class="rank">${i + 1}</td>`;
-      row.forEach(cell => html += `<td>${escapeHtml(cell)}</td>`);
+      html += `<td>${escapeHtml(row[0])}</td>`;
+      html += `<td>${formatInt(row[1])}</td>`;
+      html += `<td>${formatMoney(row[2])}</td>`;
+      html += `<td>${formatInt(row[3])}</td>`;
       html += "</tr>";
     });
     html += "</tbody></table>";
