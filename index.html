@@ -115,8 +115,8 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 30px;
-    height: 30px;
+    width: 34px;
+    height: 34px;
     border-radius: 50%;
     font-weight: 700;
     font-size: 0.85rem;
@@ -124,19 +124,67 @@
   .rank-badge.gold {
     background: linear-gradient(160deg, #FFD874, var(--brand-amber));
     color: var(--brand-dark);
+    font-size: 1.1rem;
   }
   .rank-badge.podium {
     background: linear-gradient(160deg, var(--brand-red), var(--brand-red-dark));
     color: var(--brand-white);
+  }
+  .rank-badge.runner {
+    background: linear-gradient(160deg, var(--brand-red), var(--brand-red-dark));
+    color: var(--brand-white);
+    font-size: 1.05rem;
+    animation: jitter-run 1s ease-in-out infinite;
   }
   .rank-badge.plain {
     background: var(--bg);
     color: var(--muted);
     border: 1px solid var(--border);
   }
+  .rank-badge.pineapple {
+    background: linear-gradient(160deg, #FFF3D6, var(--brand-amber));
+    color: var(--brand-dark);
+    font-size: 1.1rem;
+  }
+  @keyframes jitter-run {
+    0%, 100% { transform: translateX(0) rotate(0deg); }
+    25% { transform: translateX(1.5px) rotate(-6deg); }
+    75% { transform: translateX(-1.5px) rotate(6deg); }
+  }
 
   .franquia-cell { font-weight: 700; color: var(--brand-dark); }
   .pontos-cell { font-weight: 700; color: var(--brand-red-dark); }
+
+  tr.top3 td { padding-top: 18px; padding-bottom: 18px; }
+  tr.top3 td.franquia-cell { font-size: 1.05rem; }
+  tr.top3 { background: linear-gradient(90deg, rgba(227,6,19,0.05), transparent 70%); }
+
+  tr[data-key] { position: relative; }
+  tr.kick-anim { animation: kick-jab 0.6s ease-in-out; z-index: 2; }
+  tr.bump-anim td { animation: bump-flinch 0.6s ease-in-out; }
+  @keyframes kick-jab {
+    0% { transform: translateX(0); }
+    30% { transform: translateX(7px) rotate(-1deg); }
+    55% { transform: translateX(-3px); }
+    100% { transform: translateX(0); }
+  }
+  @keyframes bump-flinch {
+    0% { background: transparent; }
+    30% { background: rgba(227,6,19,0.1); }
+    100% { background: transparent; }
+  }
+  tr.kick-anim td:first-child::after {
+    content: "👟💥";
+    position: absolute;
+    margin-left: 10px;
+    font-size: 0.85rem;
+    animation: boot-pop 0.8s ease-out forwards;
+  }
+  @keyframes boot-pop {
+    0% { opacity: 0; transform: translateX(-8px) scale(0.6); }
+    35% { opacity: 1; transform: translateX(6px) scale(1.15); }
+    100% { opacity: 0; transform: translateX(18px) scale(0.9); }
+  }
 
   .status {
     padding: 56px 24px;
@@ -224,9 +272,12 @@ const SHEET_NAME = "Página1"; // nome da aba
 
 const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(SHEET_NAME)}`;
 
+let prevOrder = null; // nomes das franquias na ordem do ciclo anterior, pra detectar ultrapassagem
+
 async function load() {
   const contentEl = document.getElementById("content");
   const updatedEl = document.getElementById("updated");
+  const card = document.querySelector(".card");
   try {
     const res = await fetch(url);
     const text = await res.text();
@@ -242,6 +293,26 @@ async function load() {
 
     // Colunas fixas: Franquia, Matrículas, Faturamento, Pontos
     const ranked = rows.slice().sort((a, b) => Number(b[3] || 0) - Number(a[3] || 0));
+    const newOrder = ranked.map(r => String(r[0]));
+
+    // Detecta quem ultrapassou (subiu) e quem foi ultrapassado (desceu) desde o último ciclo
+    const kicked = new Set();
+    const bumped = new Set();
+    if (prevOrder) {
+      const prevIndex = {};
+      prevOrder.forEach((name, i) => { prevIndex[name] = i; });
+      newOrder.forEach((name, i) => {
+        if (prevIndex[name] === undefined) return;
+        if (i < prevIndex[name]) kicked.add(name);
+        if (i > prevIndex[name]) bumped.add(name);
+      });
+    }
+
+    // Guarda a posição atual das linhas antes de trocar o conteúdo (pra animação FLIP)
+    const oldRects = {};
+    document.querySelectorAll("tbody tr[data-key]").forEach(row => {
+      oldRects[row.dataset.key] = row.getBoundingClientRect();
+    });
 
     const formatInt = n => Number(n || 0).toLocaleString("pt-BR");
     const formatMoney = n => Number(n || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
@@ -251,9 +322,22 @@ async function load() {
     html += "</tr></thead><tbody>";
 
     ranked.forEach((row, i) => {
-      const badgeClass = i === 0 ? "gold" : i < 3 ? "podium" : "plain";
-      html += `<tr>`;
-      html += `<td><span class="rank-badge ${badgeClass}">${i + 1}</span></td>`;
+      const name = String(row[0]);
+      const isLast = i === ranked.length - 1 && ranked.length > 1;
+      let badgeClass = "plain";
+      let badgeContent = i + 1;
+      if (i === 0) { badgeClass = "gold"; badgeContent = "👑"; }
+      else if (i === 1) { badgeClass = "runner"; badgeContent = "🏃"; }
+      else if (i === 2) { badgeClass = "podium"; badgeContent = i + 1; }
+      if (isLast) { badgeClass = "pineapple"; badgeContent = "🍍"; }
+
+      const rowClasses = [];
+      if (i < 3) rowClasses.push("top3");
+      if (kicked.has(name)) rowClasses.push("kick-anim");
+      if (bumped.has(name)) rowClasses.push("bump-anim");
+
+      html += `<tr data-key="${escapeHtml(name)}" class="${rowClasses.join(" ")}">`;
+      html += `<td><span class="rank-badge ${badgeClass}">${badgeContent}</span></td>`;
       html += `<td class="franquia-cell" data-label="${escapeHtml(cols[0])}">${escapeHtml(row[0])}</td>`;
       html += `<td data-label="${escapeHtml(cols[1])}">${formatInt(row[1])}</td>`;
       html += `<td data-label="${escapeHtml(cols[2])}">${formatMoney(row[2])}</td>`;
@@ -262,11 +346,33 @@ async function load() {
     });
     html += "</tbody></table>";
 
-    contentEl.outerHTML = html;
+    if (contentEl) {
+      contentEl.outerHTML = html;
+    } else {
+      card.innerHTML = html;
+    }
     updatedEl.textContent = "Atualizado às " + new Date().toLocaleTimeString("pt-BR");
+
+    // Anima o deslocamento de posição (FLIP): linha nasce onde estava, desliza pra onde está agora
+    requestAnimationFrame(() => {
+      document.querySelectorAll("tbody tr[data-key]").forEach(row => {
+        const oldRect = oldRects[row.dataset.key];
+        if (!oldRect) return;
+        const newRect = row.getBoundingClientRect();
+        const deltaY = oldRect.top - newRect.top;
+        if (Math.abs(deltaY) < 1) return;
+        row.style.transition = "none";
+        row.style.transform = `translateY(${deltaY}px)`;
+        requestAnimationFrame(() => {
+          row.style.transition = "transform 0.5s cubic-bezier(0.22, 1, 0.36, 1)";
+          row.style.transform = "";
+        });
+      });
+    });
+
+    prevOrder = newOrder;
   } catch (err) {
-    contentEl.textContent = "Erro ao carregar planilha. Confira o ID e o compartilhamento.";
-    contentEl.classList.add("error");
+    card.innerHTML = `<div class="status error">Erro ao carregar planilha. Confira o ID e o compartilhamento.</div>`;
     updatedEl.textContent = "";
     console.error(err);
   }
