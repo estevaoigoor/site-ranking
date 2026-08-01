@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ranking</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #0f1115;
+    --card: #171a21;
+    --text: #e8e9ec;
+    --muted: #9aa0ab;
+    --accent: #4f8cff;
+    --border: #262a33;
+  }
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: #f5f6f8;
+      --card: #ffffff;
+      --text: #1a1c20;
+      --muted: #5f6672;
+      --accent: #2563eb;
+      --border: #e3e5e9;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    padding: 24px 16px 64px;
+  }
+  .wrap { max-width: 960px; margin: 0 auto; }
+  h1 { font-size: 1.6rem; margin-bottom: 4px; }
+  .sub { color: var(--muted); font-size: 0.9rem; margin-bottom: 24px; }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  table { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+  th, td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); }
+  th {
+    background: var(--card);
+    color: var(--muted);
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+    position: sticky;
+    top: 0;
+  }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: rgba(79,140,255,0.06); }
+  .rank {
+    font-weight: 700;
+    color: var(--accent);
+    width: 40px;
+  }
+  .status { padding: 40px; text-align: center; color: var(--muted); }
+  .status.error { color: #e5484d; }
+  table td:first-child, table th:first-child { padding-left: 16px; }
+  .updated { color: var(--muted); font-size: 0.78rem; margin-top: 14px; text-align: right; }
+  @media (max-width: 600px) {
+    th, td { padding: 8px 10px; font-size: 0.85rem; }
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Ranking</h1>
+    <div class="sub">Dado puxado direto da planilha do Google Sheets.</div>
+    <div class="card">
+      <div id="content" class="status">Carregando...</div>
+    </div>
+    <div id="updated" class="updated"></div>
+  </div>
+
+<script>
+// ==== CONFIGURAR AQUI ====
+const SHEET_ID = "COLE_AQUI_O_ID_DA_PLANILHA";
+const SHEET_NAME = "Página1"; // nome da aba
+// ==========================
+
+const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(SHEET_NAME)}`;
+
+async function load() {
+  const contentEl = document.getElementById("content");
+  const updatedEl = document.getElementById("updated");
+  try {
+    const res = await fetch(url);
+    const text = await res.text();
+    const json = JSON.parse(text.substring(47, text.length - 2));
+
+    const cols = json.table.cols.map(c => c.label || "");
+    const rows = json.table.rows.map(r => r.c.map(cell => (cell ? cell.v : "")));
+
+    if (rows.length === 0) {
+      contentEl.textContent = "Sem dados na planilha.";
+      return;
+    }
+
+    let html = "<table><thead><tr><th>#</th>";
+    cols.forEach(c => html += `<th>${escapeHtml(c)}</th>`);
+    html += "</tr></thead><tbody>";
+
+    rows.forEach((row, i) => {
+      html += `<tr><td class="rank">${i + 1}</td>`;
+      row.forEach(cell => html += `<td>${escapeHtml(cell)}</td>`);
+      html += "</tr>";
+    });
+    html += "</tbody></table>";
+
+    contentEl.outerHTML = html;
+    document.getElementById("updated").textContent = "";
+    updatedEl.textContent = "Atualizado: " + new Date().toLocaleString("pt-BR");
+  } catch (err) {
+    contentEl.textContent = "Erro ao carregar planilha. Confira o ID e o compartilhamento.";
+    contentEl.classList.add("error");
+    console.error(err);
+  }
+}
+
+function escapeHtml(v) {
+  return String(v ?? "").replace(/[&<>"']/g, c => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+  }[c]));
+}
+
+load();
+setInterval(load, 60000); // atualiza a cada 60s
+</script>
+</body>
+</html>
