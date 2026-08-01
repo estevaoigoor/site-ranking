@@ -3,80 +3,217 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Ranking</title>
+<title>Ranking de Franquias · Instituto Mix</title>
+<meta name="description" content="Ranking em tempo real das franquias Instituto Mix por pontuação." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 <style>
   :root {
-    color-scheme: light dark;
-    --bg: #0f1115;
-    --card: #171a21;
-    --text: #e8e9ec;
-    --muted: #9aa0ab;
-    --accent: #4f8cff;
-    --border: #262a33;
-  }
-  @media (prefers-color-scheme: light) {
-    :root {
-      --bg: #f5f6f8;
-      --card: #ffffff;
-      --text: #1a1c20;
-      --muted: #5f6672;
-      --accent: #2563eb;
-      --border: #e3e5e9;
-    }
+    --brand-red: #E30613;
+    --brand-red-dark: #B4050F;
+    --brand-amber: #FAB219;
+    --brand-white: #FFFFFF;
+    --brand-dark: #0B0B0B;
+    --bg: #F7F3F0;
+    --card: #FFFFFF;
+    --text: #241414;
+    --muted: #8A7A78;
+    --border: #EDE4E1;
   }
   * { box-sizing: border-box; }
   body {
     margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     background: var(--bg);
     color: var(--text);
-    padding: 24px 16px 64px;
   }
-  .wrap { max-width: 960px; margin: 0 auto; }
-  h1 { font-size: 1.6rem; margin-bottom: 4px; }
-  .sub { color: var(--muted); font-size: 0.9rem; margin-bottom: 24px; }
-  .card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 12px;
+
+  .banner {
+    background: linear-gradient(135deg, var(--brand-red) 0%, var(--brand-red-dark) 100%);
+    padding: 48px 20px 88px;
+    color: var(--brand-white);
+    position: relative;
     overflow: hidden;
   }
-  table { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
-  th, td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); }
-  th {
+  .banner::after {
+    content: "";
+    position: absolute;
+    right: -80px;
+    top: -80px;
+    width: 260px;
+    height: 260px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.06);
+  }
+  .brandmark {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 28px;
+    position: relative;
+  }
+  .brandmark svg { width: 26px; height: 22px; flex-shrink: 0; }
+  .brandmark span {
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: 0.02em;
+  }
+  .banner h1 {
+    margin: 0 0 10px;
+    font-size: clamp(1.7rem, 4vw, 2.4rem);
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    position: relative;
+  }
+  .banner p {
+    margin: 0;
+    max-width: 60ch;
+    font-size: 1rem;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.88);
+    position: relative;
+  }
+
+  .wrap {
+    max-width: 880px;
+    margin: -56px auto 48px;
+    padding: 0 20px;
+    position: relative;
+  }
+
+  .card {
     background: var(--card);
-    color: var(--muted);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 24px 48px -24px rgba(179, 20, 20, 0.28), 0 2px 8px rgba(11, 11, 11, 0.06);
+  }
+
+  table { width: 100%; border-collapse: collapse; }
+  thead th {
+    background: var(--brand-dark);
+    color: var(--brand-white);
     font-weight: 600;
     text-transform: uppercase;
-    font-size: 0.72rem;
-    letter-spacing: 0.04em;
-    position: sticky;
-    top: 0;
+    font-size: 0.7rem;
+    letter-spacing: 0.06em;
+    text-align: left;
+    padding: 16px 18px;
   }
-  tr:last-child td { border-bottom: none; }
-  tr:hover td { background: rgba(79,140,255,0.06); }
-  .rank {
+  thead th:first-child { padding-left: 22px; width: 56px; }
+  tbody td {
+    padding: 16px 18px;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.95rem;
+    font-weight: 500;
+  }
+  tbody td:first-child { padding-left: 22px; }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:hover td { background: #FBF7F5; }
+
+  .rank-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
     font-weight: 700;
-    color: var(--accent);
-    width: 40px;
+    font-size: 0.85rem;
   }
-  .status { padding: 40px; text-align: center; color: var(--muted); }
-  .status.error { color: #e5484d; }
-  table td:first-child, table th:first-child { padding-left: 16px; }
-  .updated { color: var(--muted); font-size: 0.78rem; margin-top: 14px; text-align: right; }
-  @media (max-width: 600px) {
-    th, td { padding: 8px 10px; font-size: 0.85rem; }
+  .rank-badge.gold {
+    background: linear-gradient(160deg, #FFD874, var(--brand-amber));
+    color: var(--brand-dark);
+  }
+  .rank-badge.podium {
+    background: linear-gradient(160deg, var(--brand-red), var(--brand-red-dark));
+    color: var(--brand-white);
+  }
+  .rank-badge.plain {
+    background: var(--bg);
+    color: var(--muted);
+    border: 1px solid var(--border);
+  }
+
+  .franquia-cell { font-weight: 700; color: var(--brand-dark); }
+  .pontos-cell { font-weight: 700; color: var(--brand-red-dark); }
+
+  .status {
+    padding: 56px 24px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+  .status.error { color: var(--brand-red-dark); font-weight: 500; }
+
+  .footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 16px;
+    color: var(--muted);
+    font-size: 0.78rem;
+  }
+  .live-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--brand-red);
+    animation: pulse 2.2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.35; }
+  }
+
+  @media (max-width: 640px) {
+    .banner { padding: 36px 16px 76px; }
+    thead { display: none; }
+    tbody, tbody tr, tbody td { display: block; width: 100%; }
+    tbody tr {
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--border);
+    }
+    tbody tr:last-child { border-bottom: none; }
+    tbody td {
+      border-bottom: none;
+      padding: 3px 0;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    tbody td:first-child { padding-left: 0; margin-bottom: 8px; }
+    tbody td:not(:first-child)::before {
+      content: attr(data-label);
+      color: var(--muted);
+      font-weight: 500;
+      font-size: 0.82rem;
+    }
   }
 </style>
 </head>
 <body>
-  <div class="wrap">
-    <h1>Ranking</h1>
-    <div class="sub">Dado puxado direto da planilha do Google Sheets.</div>
-    <div class="card">
-      <div id="content" class="status">Carregando...</div>
+  <div class="banner">
+    <div class="brandmark">
+      <svg viewBox="0 0 26 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M9 0C4 0 0 4.2 0 9.4c0 4.6 3 8 7 8 .6 0 1.1-.1 1.6-.2C7.4 21.6 4.8 22 4.8 22l1 2h1.4c4-1.6 6.8-6 6.8-11C14 4.6 11.8 0 9 0Z" fill="#FAB219"/>
+        <path d="M21 0c-5 0-9 4.2-9 9.4 0 4.6 3 8 7 8 .6 0 1.1-.1 1.6-.2-1.2 3.8-3.8 4.2-3.8 4.2l1 2h1.4c4-1.6 6.8-6 6.8-11C26 4.6 23.8 0 21 0Z" fill="#FAB219"/>
+      </svg>
+      <span>INSTITUTO MIX</span>
     </div>
-    <div id="updated" class="updated"></div>
+    <h1>Ranking de Franquias</h1>
+    <p>Acompanhe em tempo real quem está na frente. Cada matrícula e cada faturamento conta — e por trás de cada ponto tem uma unidade mudando a vida de alguém.</p>
+  </div>
+
+  <div class="wrap">
+    <div class="card">
+      <div id="content" class="status">Carregando ranking...</div>
+    </div>
+    <div class="footer">
+      <span class="live-dot"></span>
+      <span id="updated">conectando com a planilha...</span>
+    </div>
   </div>
 
 <script>
@@ -99,7 +236,7 @@ async function load() {
     const rows = json.table.rows.map(r => r.c.map(cell => (cell ? cell.v : "")));
 
     if (rows.length === 0) {
-      contentEl.textContent = "Sem dados na planilha.";
+      contentEl.textContent = "Sem dados na planilha ainda.";
       return;
     }
 
@@ -114,21 +251,23 @@ async function load() {
     html += "</tr></thead><tbody>";
 
     ranked.forEach((row, i) => {
-      html += `<tr><td class="rank">${i + 1}</td>`;
-      html += `<td>${escapeHtml(row[0])}</td>`;
-      html += `<td>${formatInt(row[1])}</td>`;
-      html += `<td>${formatMoney(row[2])}</td>`;
-      html += `<td>${formatInt(row[3])}</td>`;
-      html += "</tr>";
+      const badgeClass = i === 0 ? "gold" : i < 3 ? "podium" : "plain";
+      html += `<tr>`;
+      html += `<td><span class="rank-badge ${badgeClass}">${i + 1}</span></td>`;
+      html += `<td class="franquia-cell" data-label="${escapeHtml(cols[0])}">${escapeHtml(row[0])}</td>`;
+      html += `<td data-label="${escapeHtml(cols[1])}">${formatInt(row[1])}</td>`;
+      html += `<td data-label="${escapeHtml(cols[2])}">${formatMoney(row[2])}</td>`;
+      html += `<td class="pontos-cell" data-label="${escapeHtml(cols[3])}">${formatInt(row[3])}</td>`;
+      html += `</tr>`;
     });
     html += "</tbody></table>";
 
     contentEl.outerHTML = html;
-    document.getElementById("updated").textContent = "";
-    updatedEl.textContent = "Atualizado: " + new Date().toLocaleString("pt-BR");
+    updatedEl.textContent = "Atualizado às " + new Date().toLocaleTimeString("pt-BR");
   } catch (err) {
     contentEl.textContent = "Erro ao carregar planilha. Confira o ID e o compartilhamento.";
     contentEl.classList.add("error");
+    updatedEl.textContent = "";
     console.error(err);
   }
 }
