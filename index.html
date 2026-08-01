@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Ranking de Franquias · Instituto Mix</title>
+<title>Ranking Comercial - SP01 · Instituto Mix</title>
 <meta name="description" content="Ranking em tempo real das franquias Instituto Mix por pontuação." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -76,10 +76,64 @@
   }
 
   .wrap {
-    max-width: 880px;
+    max-width: 1040px;
     margin: -56px auto 48px;
     padding: 0 20px;
     position: relative;
+  }
+
+  .layout {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .sidebar {
+    flex: 0 0 176px;
+    background: var(--card);
+    border-radius: 20px;
+    box-shadow: 0 24px 48px -24px rgba(179, 20, 20, 0.28), 0 2px 8px rgba(11, 11, 11, 0.06);
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .tab-btn {
+    appearance: none;
+    border: none;
+    background: none;
+    text-align: left;
+    font-family: inherit;
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: var(--muted);
+    padding: 13px 14px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+  .tab-btn:hover { background: var(--bg); color: var(--text); }
+  .tab-btn.active {
+    background: linear-gradient(135deg, var(--brand-red), var(--brand-red-dark));
+    color: var(--brand-white);
+  }
+
+  .panels { flex: 1; min-width: 0; }
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  .empty-state {
+    padding: 64px 24px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+  .empty-state strong {
+    display: block;
+    color: var(--brand-dark);
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 8px;
   }
 
   .card {
@@ -217,6 +271,14 @@
 
   @media (max-width: 640px) {
     .banner { padding: 36px 16px 76px; }
+    .layout { flex-direction: column; }
+    .sidebar {
+      flex-direction: row;
+      width: 100%;
+      overflow-x: auto;
+      padding: 8px;
+    }
+    .tab-btn { flex: 0 0 auto; white-space: nowrap; }
     thead { display: none; }
     tbody, tbody tr, tbody td { display: block; width: 100%; }
     tbody tr {
@@ -250,17 +312,47 @@
       </svg>
       <span>INSTITUTO MIX</span>
     </div>
-    <h1>Ranking de Franquias</h1>
-    <p>Acompanhe em tempo real quem está na frente. Cada matrícula e cada faturamento conta — e por trás de cada ponto tem uma unidade mudando a vida de alguém.</p>
+    <h1 id="page-title">Ranking Comercial - SP01</h1>
+    <p>Seja sempre 1% melhor que ontem e 1% pior que amanhã.</p>
   </div>
 
   <div class="wrap">
-    <div class="card">
-      <div id="content" class="status">Carregando ranking...</div>
-    </div>
-    <div class="footer">
-      <span class="live-dot"></span>
-      <span id="updated">conectando com a planilha...</span>
+    <div class="layout">
+      <nav class="sidebar" aria-label="Selecionar ranking">
+        <button class="tab-btn active" data-tab="comercial" data-title="Ranking Comercial - SP01">Comercial</button>
+        <button class="tab-btn" data-tab="financeiro" data-title="Ranking Financeiro - SP01">Financeiro</button>
+        <button class="tab-btn" data-tab="pedagogico" data-title="Ranking Pedagógico - SP01">Pedagógico</button>
+      </nav>
+
+      <div class="panels">
+        <section class="panel active" id="panel-comercial">
+          <div class="card">
+            <div id="content" class="status">Carregando ranking...</div>
+          </div>
+          <div class="footer">
+            <span class="live-dot"></span>
+            <span id="updated">conectando com a planilha...</span>
+          </div>
+        </section>
+
+        <section class="panel" id="panel-financeiro">
+          <div class="card">
+            <div class="empty-state">
+              <strong>Ranking Financeiro em construção</strong>
+              Regras e critérios de pontuação ainda serão definidos.
+            </div>
+          </div>
+        </section>
+
+        <section class="panel" id="panel-pedagogico">
+          <div class="card">
+            <div class="empty-state">
+              <strong>Ranking Pedagógico em construção</strong>
+              Índices e métricas ainda serão definidos.
+            </div>
+          </div>
+        </section>
+      </div>
     </div>
   </div>
 
@@ -277,7 +369,7 @@ let prevOrder = null; // nomes das franquias na ordem do ciclo anterior, pra det
 async function load() {
   const contentEl = document.getElementById("content");
   const updatedEl = document.getElementById("updated");
-  const card = document.querySelector(".card");
+  const card = document.querySelector("#panel-comercial .card");
   try {
     const res = await fetch(url);
     const text = await res.text();
@@ -383,6 +475,16 @@ function escapeHtml(v) {
     "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
   }[c]));
 }
+
+document.querySelectorAll(".tab-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    document.querySelectorAll(".panel").forEach(p => p.classList.remove("active"));
+    document.getElementById("panel-" + btn.dataset.tab).classList.add("active");
+    document.getElementById("page-title").textContent = btn.dataset.title;
+  });
+});
 
 load();
 setInterval(load, 60000); // atualiza a cada 60s
