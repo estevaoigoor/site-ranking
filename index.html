@@ -301,6 +301,83 @@
       font-size: 0.82rem;
     }
   }
+
+  .gate {
+    padding: 64px 24px;
+    text-align: center;
+  }
+  .gate-icon { font-size: 2rem; margin-bottom: 12px; }
+  .gate h3 { margin: 0 0 6px; font-size: 1.15rem; color: var(--brand-dark); }
+  .gate p { margin: 0 0 22px; color: var(--muted); font-size: 0.9rem; }
+  .gate-form { display: flex; gap: 10px; justify-content: center; max-width: 320px; margin: 0 auto; }
+  .gate-form input {
+    flex: 1;
+    padding: 11px 14px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    font-family: inherit;
+    font-size: 0.95rem;
+    outline: none;
+  }
+  .gate-form input:focus { border-color: var(--brand-red); }
+  .gate-form button {
+    border: none;
+    border-radius: 10px;
+    padding: 0 18px;
+    background: linear-gradient(135deg, var(--brand-red), var(--brand-red-dark));
+    color: #fff;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+  }
+  .gate-error { color: var(--brand-red-dark); font-size: 0.85rem; margin-top: 12px; min-height: 1.2em; }
+  .gate-unlocked-btn {
+    border: none;
+    border-radius: 12px;
+    padding: 12px 22px;
+    background: linear-gradient(135deg, var(--brand-red), var(--brand-red-dark));
+    color: #fff;
+    font-weight: 700;
+    font-family: inherit;
+    font-size: 0.95rem;
+    cursor: pointer;
+  }
+
+  #criaia-takeover {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 500;
+    background: #05070F;
+    overflow-y: auto;
+  }
+  #criaia-takeover.active { display: block; }
+  #criaia-exit {
+    position: fixed;
+    top: 14px;
+    right: 16px;
+    z-index: 600;
+    border: 1px solid rgba(232,236,255,.25);
+    background: rgba(11,11,11,.6);
+    color: #E8ECFF;
+    font-family: "Poppins", sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 9px 14px;
+    border-radius: 10px;
+    cursor: pointer;
+    backdrop-filter: blur(8px);
+  }
+  #criaia-mount { min-height: 100vh; }
+  .criaia-loading {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #8A93B2;
+    font-family: "Poppins", sans-serif;
+    font-size: 0.95rem;
+  }
 </style>
 </head>
 <body>
@@ -322,6 +399,7 @@
         <button class="tab-btn active" data-tab="comercial" data-title="Ranking Comercial - SP01">Comercial</button>
         <button class="tab-btn" data-tab="financeiro" data-title="Ranking Financeiro - SP01">Financeiro</button>
         <button class="tab-btn" data-tab="pedagogico" data-title="Ranking Pedagógico - SP01">Pedagógico</button>
+        <button class="tab-btn" data-tab="agentes" data-title="Agentes IA - SP01">Agentes IA</button>
       </nav>
 
       <div class="panels">
@@ -352,8 +430,34 @@
             </div>
           </div>
         </section>
+
+        <section class="panel" id="panel-agentes">
+          <div class="card">
+            <div class="gate" id="gate-form-wrap">
+              <div class="gate-icon">🔒</div>
+              <h3>Área restrita</h3>
+              <p>Digite a senha pra acessar o CriaIA.</p>
+              <div class="gate-form">
+                <input type="password" id="gate-input" placeholder="Senha" autocomplete="off" />
+                <button id="gate-submit">Entrar</button>
+              </div>
+              <div class="gate-error" id="gate-error"></div>
+            </div>
+            <div class="gate" id="gate-unlocked" style="display:none;">
+              <div class="gate-icon">✅</div>
+              <h3>Acesso liberado</h3>
+              <p>Clique abaixo pra abrir o CriaIA (tela cheia).</p>
+              <button class="gate-unlocked-btn" id="gate-open">🚀 Abrir CriaIA</button>
+            </div>
+          </div>
+        </section>
       </div>
     </div>
+  </div>
+
+  <div id="criaia-takeover">
+    <button id="criaia-exit">← Voltar ao Ranking</button>
+    <div id="criaia-mount"><div class="criaia-loading">Carregando CriaIA…</div></div>
   </div>
 
 <script>
@@ -483,8 +587,89 @@ document.querySelectorAll(".tab-btn").forEach(btn => {
     document.querySelectorAll(".panel").forEach(p => p.classList.remove("active"));
     document.getElementById("panel-" + btn.dataset.tab).classList.add("active");
     document.getElementById("page-title").textContent = btn.dataset.title;
+    if (btn.dataset.tab === "agentes") atualizarGate();
   });
 });
+
+// ==== ÁREA RESTRITA: CRIAIA ====
+// Aviso: essa senha só bloqueia visualmente. Qualquer pessoa que abrir o
+// código-fonte da página (Ctrl+U) consegue ver o valor abaixo. Não serve
+// pra proteger dado sensível de verdade, só pra afastar curioso casual.
+const CRIAIA_SENHA = "Igor1110";
+
+function atualizarGate() {
+  const desbloqueado = sessionStorage.getItem("criaia_unlocked") === "1";
+  document.getElementById("gate-form-wrap").style.display = desbloqueado ? "none" : "block";
+  document.getElementById("gate-unlocked").style.display = desbloqueado ? "block" : "none";
+}
+atualizarGate();
+
+document.getElementById("gate-submit").addEventListener("click", tentarSenha);
+document.getElementById("gate-input").addEventListener("keydown", e => { if (e.key === "Enter") tentarSenha(); });
+function tentarSenha() {
+  const input = document.getElementById("gate-input");
+  const erro = document.getElementById("gate-error");
+  if (input.value === CRIAIA_SENHA) {
+    sessionStorage.setItem("criaia_unlocked", "1");
+    input.value = "";
+    erro.textContent = "";
+    atualizarGate();
+  } else {
+    erro.textContent = "Senha incorreta.";
+    input.value = "";
+    input.focus();
+  }
+}
+
+document.getElementById("gate-open").addEventListener("click", () => {
+  document.getElementById("criaia-takeover").classList.add("active");
+  carregarCriaIA();
+});
+document.getElementById("criaia-exit").addEventListener("click", () => {
+  document.getElementById("criaia-takeover").classList.remove("active");
+});
+
+let criaiaCarregado = false;
+function carregarScript(src) {
+  return new Promise((resolve, reject) => {
+    const s = document.createElement("script");
+    s.src = src;
+    s.onload = resolve;
+    s.onerror = () => reject(new Error("Falha ao carregar " + src));
+    document.head.appendChild(s);
+  });
+}
+
+async function carregarCriaIA() {
+  if (criaiaCarregado) return;
+  const mount = document.getElementById("criaia-mount");
+  try {
+    if (!window.React) await carregarScript("https://unpkg.com/react@18/umd/react.production.min.js");
+    if (!window.ReactDOM) await carregarScript("https://unpkg.com/react-dom@18/umd/react-dom.production.min.js");
+    if (!window.Babel) await carregarScript("https://unpkg.com/@babel/standalone@7/babel.min.js");
+
+    const res = await fetch("criaia.jsx");
+    if (!res.ok) throw new Error("Não achei o arquivo criaia.jsx (HTTP " + res.status + ")");
+    let src = await res.text();
+
+    // Adapta o arquivo (feito pra bundler/ES modules) pro carregamento direto via CDN + Babel standalone
+    src = src.replace(
+      /^import React, \{ useState, useRef, useEffect \} from "react";/m,
+      'const { useState, useRef, useEffect } = React;'
+    );
+    src = src.replace(/^export default function App/m, "function App");
+
+    const compilado = Babel.transform(src, { presets: ["react"] }).code;
+    const AppComponent = new Function("React", compilado + "\nreturn App;")(window.React);
+
+    const root = ReactDOM.createRoot(mount);
+    root.render(React.createElement(AppComponent));
+    criaiaCarregado = true;
+  } catch (err) {
+    mount.innerHTML = '<div class="criaia-loading">Erro ao carregar o CriaIA: ' + escapeHtml(err.message) + "</div>";
+    console.error(err);
+  }
+}
 
 load();
 setInterval(load, 60000); // atualiza a cada 60s
