@@ -31,7 +31,7 @@
 
   .banner {
     background: linear-gradient(135deg, var(--brand-red) 0%, var(--brand-red-dark) 100%);
-    padding: 48px 20px 88px;
+    padding: 26px 20px 52px;
     color: var(--brand-white);
     position: relative;
     overflow: hidden;
@@ -50,18 +50,18 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    margin-bottom: 28px;
+    margin-bottom: 14px;
     position: relative;
   }
-  .brandmark svg { width: 26px; height: 22px; flex-shrink: 0; }
+  .brandmark svg { width: 22px; height: 18px; flex-shrink: 0; }
   .brandmark span {
     font-weight: 700;
-    font-size: 1rem;
+    font-size: 0.9rem;
     letter-spacing: 0.02em;
   }
   .banner h1 {
-    margin: 0 0 10px;
-    font-size: clamp(1.7rem, 4vw, 2.4rem);
+    margin: 0 0 6px;
+    font-size: clamp(1.4rem, 3vw, 1.9rem);
     font-weight: 800;
     letter-spacing: -0.01em;
     position: relative;
@@ -69,15 +69,15 @@
   .banner p {
     margin: 0;
     max-width: 60ch;
-    font-size: 1rem;
+    font-size: 0.88rem;
     font-weight: 400;
     color: rgba(255, 255, 255, 0.88);
     position: relative;
   }
 
   .wrap {
-    max-width: 1040px;
-    margin: -56px auto 48px;
+    max-width: 1180px;
+    margin: -32px auto 24px;
     padding: 0 20px;
     position: relative;
   }
@@ -143,25 +143,27 @@
     box-shadow: 0 24px 48px -24px rgba(179, 20, 20, 0.28), 0 2px 8px rgba(11, 11, 11, 0.06);
   }
 
+  .rank-grid { display: flex; }
+  .rank-grid table:first-child { border-right: 1px solid var(--border); }
   table { width: 100%; border-collapse: collapse; }
   thead th {
     background: var(--brand-dark);
     color: var(--brand-white);
     font-weight: 600;
     text-transform: uppercase;
-    font-size: 0.7rem;
+    font-size: 0.64rem;
     letter-spacing: 0.06em;
     text-align: left;
-    padding: 16px 18px;
+    padding: 7px 14px;
   }
-  thead th:first-child { padding-left: 22px; width: 56px; }
+  thead th:first-child { padding-left: 18px; width: 46px; }
   tbody td {
-    padding: 16px 18px;
+    padding: 5px 14px;
     border-bottom: 1px solid var(--border);
-    font-size: 0.95rem;
+    font-size: 0.8rem;
     font-weight: 500;
   }
-  tbody td:first-child { padding-left: 22px; }
+  tbody td:first-child { padding-left: 18px; }
   tbody tr:last-child td { border-bottom: none; }
   tbody tr:hover td { background: #FBF7F5; }
 
@@ -169,11 +171,11 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 34px;
-    height: 34px;
+    width: 23px;
+    height: 23px;
     border-radius: 50%;
     font-weight: 700;
-    font-size: 0.85rem;
+    font-size: 0.7rem;
   }
   .rank-badge.gold {
     background: linear-gradient(160deg, #FFD874, var(--brand-amber));
@@ -187,7 +189,7 @@
   .rank-badge.runner {
     background: linear-gradient(160deg, var(--brand-red), var(--brand-red-dark));
     color: var(--brand-white);
-    font-size: 1.05rem;
+    font-size: 0.95rem;
     animation: jitter-run 1s ease-in-out infinite;
   }
   .rank-badge.plain {
@@ -209,8 +211,8 @@
   .franquia-cell { font-weight: 700; color: var(--brand-dark); }
   .pontos-cell { font-weight: 700; color: var(--brand-red-dark); }
 
-  tr.top3 td { padding-top: 18px; padding-bottom: 18px; }
-  tr.top3 td.franquia-cell { font-size: 1.05rem; }
+  tr.top3 td { padding-top: 7px; padding-bottom: 7px; }
+  tr.top3 td.franquia-cell { font-size: 0.86rem; }
   tr.top3 { background: linear-gradient(90deg, rgba(227,6,19,0.05), transparent 70%); }
 
   tr[data-key] { position: relative; }
@@ -253,9 +255,12 @@
     align-items: center;
     justify-content: flex-end;
     gap: 8px;
-    margin-top: 16px;
+    margin-top: 8px;
     color: var(--muted);
-    font-size: 0.78rem;
+    font-size: 0.72rem;
+  }
+  @media (min-width: 641px) {
+    #panel-comercial .card { max-height: calc(100vh - 220px); overflow-y: auto; }
   }
   .live-dot {
     width: 7px;
@@ -270,8 +275,10 @@
   }
 
   @media (max-width: 640px) {
-    .banner { padding: 36px 16px 76px; }
+    .banner { padding: 22px 16px 44px; }
     .layout { flex-direction: column; }
+    .rank-grid { flex-direction: column; }
+    .rank-grid table:first-child { border-right: none; }
     .sidebar {
       flex-direction: row;
       width: 100%;
@@ -513,11 +520,7 @@ async function load() {
     const formatInt = n => Number(n || 0).toLocaleString("pt-BR");
     const formatMoney = n => Number(n || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 
-    let html = "<table><thead><tr><th>#</th>";
-    cols.forEach(c => html += `<th>${escapeHtml(c)}</th>`);
-    html += "</tr></thead><tbody>";
-
-    ranked.forEach((row, i) => {
+    function buildRow(row, i) {
       const name = String(row[0]);
       const isLast = i === ranked.length - 1 && ranked.length > 1;
       let badgeClass = "plain";
@@ -532,21 +535,36 @@ async function load() {
       if (kicked.has(name)) rowClasses.push("kick-anim");
       if (bumped.has(name)) rowClasses.push("bump-anim");
 
-      html += `<tr data-key="${escapeHtml(name)}" class="${rowClasses.join(" ")}">`;
-      html += `<td><span class="rank-badge ${badgeClass}">${badgeContent}</span></td>`;
-      html += `<td class="franquia-cell" data-label="${escapeHtml(cols[0])}">${escapeHtml(row[0])}</td>`;
-      html += `<td data-label="${escapeHtml(cols[1])}">${formatInt(row[1])}</td>`;
-      html += `<td data-label="${escapeHtml(cols[2])}">${formatMoney(row[2])}</td>`;
-      html += `<td class="pontos-cell" data-label="${escapeHtml(cols[3])}">${formatInt(row[3])}</td>`;
-      html += `</tr>`;
-    });
-    html += "</tbody></table>";
-
-    if (contentEl) {
-      contentEl.outerHTML = html;
-    } else {
-      card.innerHTML = html;
+      let rowHtml = `<tr data-key="${escapeHtml(name)}" class="${rowClasses.join(" ")}">`;
+      rowHtml += `<td><span class="rank-badge ${badgeClass}">${badgeContent}</span></td>`;
+      rowHtml += `<td class="franquia-cell" data-label="${escapeHtml(cols[0])}">${escapeHtml(row[0])}</td>`;
+      rowHtml += `<td data-label="${escapeHtml(cols[1])}">${formatInt(row[1])}</td>`;
+      rowHtml += `<td data-label="${escapeHtml(cols[2])}">${formatMoney(row[2])}</td>`;
+      rowHtml += `<td class="pontos-cell" data-label="${escapeHtml(cols[3])}">${formatInt(row[3])}</td>`;
+      rowHtml += `</tr>`;
+      return rowHtml;
     }
+
+    function buildTable(rowsWithIndex) {
+      let t = "<table><thead><tr><th>#</th>";
+      cols.forEach(c => t += `<th>${escapeHtml(c)}</th>`);
+      t += "</tr></thead><tbody>";
+      rowsWithIndex.forEach(([row, i]) => t += buildRow(row, i));
+      t += "</tbody></table>";
+      return t;
+    }
+
+    const indexed = ranked.map((row, i) => [row, i]);
+    const half = Math.ceil(indexed.length / 2);
+    const col1 = indexed.slice(0, half);
+    const col2 = indexed.slice(half);
+
+    let html = '<div class="rank-grid">';
+    html += buildTable(col1);
+    if (col2.length) html += buildTable(col2);
+    html += "</div>";
+
+    card.innerHTML = html;
     updatedEl.textContent = "Atualizado às " + new Date().toLocaleTimeString("pt-BR");
 
     // Anima o deslocamento de posição (FLIP): linha nasce onde estava, desliza pra onde está agora
