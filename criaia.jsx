@@ -1,52 +1,38 @@
 import React, { useState, useRef, useEffect } from "react";
 
-// ================= DESIGN SYSTEM (tema futurista) =================
+// ================= DESIGN SYSTEM (identidade Instituto Mix) =================
 const CSS = `
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap');
-.cia-root{ --bg:#05070F; --panel:rgba(13,18,38,.62); --line:rgba(124,92,255,.22); --line2:rgba(34,211,238,.3);
- --txt:#E8ECFF; --mut:#8A93B2; --faint:#697291; --p1:#7C5CFF; --p2:#22D3EE; --p3:#F472B6; --ok:#34D399; --bad:#FB7185;
- font-family:'Space Grotesk',system-ui,sans-serif; color:var(--txt); background:#05070F; }
-.cia-aurora{ position:fixed; inset:0; z-index:0; background:#05070F; overflow:hidden; }
-.cia-aurora::before,.cia-aurora::after{ content:''; position:absolute; width:62vw; height:62vw; border-radius:50%;
- filter:blur(90px); opacity:.32; }
-.cia-aurora::before{ background:radial-gradient(circle,#7C5CFF,transparent 62%); top:-22vw; left:-12vw;
- animation:ciaFloat 18s ease-in-out infinite alternate; }
-.cia-aurora::after{ background:radial-gradient(circle,#22D3EE,transparent 62%); bottom:-26vw; right:-16vw;
- animation:ciaFloat 24s ease-in-out infinite alternate-reverse; }
-@keyframes ciaFloat{ from{ transform:translate(0,0) scale(1);} to{ transform:translate(6vw,4vw) scale(1.18);} }
-@media (prefers-reduced-motion: reduce){ .cia-aurora::before,.cia-aurora::after{ animation:none; } }
-.cia-gridbg{ position:fixed; inset:0; z-index:0; pointer-events:none;
- background-image:linear-gradient(rgba(124,92,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(124,92,255,.05) 1px,transparent 1px);
- background-size:44px 44px; -webkit-mask-image:radial-gradient(ellipse at 30% 0%,black,transparent 72%);
- mask-image:radial-gradient(ellipse at 30% 0%,black,transparent 72%); }
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
+.cia-root{ --bg:#F7F3F0; --panel:#FFFFFF; --line:#EDE4E1; --line2:#B4050F;
+ --txt:#241414; --mut:#8A7A78; --faint:#B0A29E; --p1:#E30613; --p2:#B4050F; --p3:#FAB219; --ok:#34D399; --bad:#FB7185;
+ font-family:'Poppins',system-ui,sans-serif; color:var(--txt); background:var(--bg); }
 .cia-card{ background:var(--panel); border:1px solid var(--line); border-radius:18px;
- backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
+ box-shadow:0 24px 48px -24px rgba(179,20,20,.22), 0 2px 8px rgba(11,11,11,.05);
  transition:transform .25s ease, border-color .25s ease, box-shadow .25s ease; }
-.cia-card:hover{ border-color:rgba(124,92,255,.5); box-shadow:0 0 0 1px rgba(124,92,255,.22), 0 18px 44px -18px rgba(124,92,255,.5); }
+.cia-card:hover{ border-color:rgba(227,6,19,.35); box-shadow:0 24px 48px -24px rgba(179,20,20,.3), 0 2px 8px rgba(11,11,11,.06); }
 .cia-lift:hover{ transform:translateY(-3px); }
 .cia-btn{ font-family:inherit; cursor:pointer; transition:all .2s ease; }
-.cia-btn-primary{ background:linear-gradient(135deg,#7C5CFF,#22D3EE); border:none; color:#05070F; font-weight:700;
- padding:11px 22px; border-radius:12px; font-size:14.5px; box-shadow:0 0 22px rgba(124,92,255,.38); }
-.cia-btn-primary:hover:not(:disabled){ box-shadow:0 0 34px rgba(34,211,238,.55); transform:translateY(-1px); }
+.cia-btn-primary{ background:linear-gradient(135deg,#E30613,#B4050F); border:none; color:#FFFFFF; font-weight:700;
+ padding:11px 22px; border-radius:12px; font-size:14.5px; box-shadow:0 10px 22px -10px rgba(227,6,19,.5); }
+.cia-btn-primary:hover:not(:disabled){ box-shadow:0 14px 30px -10px rgba(180,5,15,.55); transform:translateY(-1px); }
 .cia-btn-primary:disabled{ opacity:.45; cursor:not-allowed; }
-.cia-btn-ghost{ background:rgba(124,92,255,.08); border:1px solid var(--line); color:var(--txt);
+.cia-btn-ghost{ background:var(--bg); border:1px solid var(--line); color:var(--txt);
  padding:10px 18px; border-radius:12px; font-weight:600; font-size:14px; }
-.cia-btn-ghost:hover{ border-color:var(--line2); }
+.cia-btn-ghost:hover{ border-color:#E30613; }
 .cia-input{ width:100%; padding:12px 15px; border-radius:12px; border:1px solid var(--line);
- background:rgba(6,9,22,.75); color:var(--txt); font-size:14.5px; box-sizing:border-box; outline:none;
+ background:#FFFFFF; color:var(--txt); font-size:14.5px; box-sizing:border-box; outline:none;
  font-family:inherit; transition:border-color .2s, box-shadow .2s; }
 .cia-input::placeholder{ color:var(--faint); }
-.cia-input:focus{ border-color:#22D3EE; box-shadow:0 0 0 3px rgba(34,211,238,.14); }
-.cia-mono{ font-family:'JetBrains Mono',monospace; }
-.cia-eyebrow{ font-family:'JetBrains Mono',monospace; font-size:10.5px; letter-spacing:.24em;
+.cia-input:focus{ border-color:#E30613; box-shadow:0 0 0 3px rgba(227,6,19,.12); }
+.cia-mono{ font-family:ui-monospace,SFMono-Regular,Menlo,monospace; }
+.cia-eyebrow{ font-family:'Poppins',sans-serif; font-weight:700; font-size:11px; letter-spacing:.14em;
  text-transform:uppercase; color:var(--p2); }
-.cia-gradtext{ background:linear-gradient(90deg,#7C5CFF,#22D3EE,#F472B6); -webkit-background-clip:text;
- background-clip:text; color:transparent; }
+.cia-gradtext{ color:#E30613; font-weight:800; }
 .cia-scroll::-webkit-scrollbar{ width:8px; height:8px; }
-.cia-scroll::-webkit-scrollbar-thumb{ background:rgba(124,92,255,.3); border-radius:8px; }
+.cia-scroll::-webkit-scrollbar-thumb{ background:rgba(227,6,19,.25); border-radius:8px; }
 .cia-scroll::-webkit-scrollbar-track{ background:transparent; }
 .cia-root button:focus-visible,.cia-root input:focus-visible,.cia-root textarea:focus-visible{
- outline:2px solid #22D3EE; outline-offset:2px; }
+ outline:2px solid #E30613; outline-offset:2px; }
 `;
 
 // ================= CONSTANTES =================
@@ -172,13 +158,13 @@ function Ajuda({ texto }) {
       <span onMouseEnter={() => setAberto(true)} onMouseLeave={() => setAberto(false)}
         onClick={() => setAberto(v => !v)}
         style={{ cursor: "help", width: 18, height: 18, display: "inline-flex", alignItems: "center",
-          justifyContent: "center", borderRadius: "50%", background: "rgba(124,92,255,.18)",
-          border: "1px solid rgba(124,92,255,.4)", color: "#C4B5FD", fontSize: 11, fontWeight: 700 }}>?</span>
+          justifyContent: "center", borderRadius: "50%", background: "rgba(227,6,19,.18)",
+          border: "1px solid rgba(227,6,19,.4)", color: "#B4050F", fontSize: 11, fontWeight: 700 }}>?</span>
       {aberto && (
         <span style={{ position: "absolute", bottom: "135%", left: "50%", transform: "translateX(-50%)",
-          background: "#10142B", border: "1px solid rgba(124,92,255,.35)", color: "#E8ECFF",
+          background: "#FFFFFF", border: "1px solid var(--line)", color: "#241414",
           padding: "9px 12px", borderRadius: 10, fontSize: 12.5, width: 235, lineHeight: 1.45, zIndex: 50,
-          boxShadow: "0 12px 30px rgba(0,0,0,.5), 0 0 20px rgba(124,92,255,.15)" }}>{texto}</span>
+          boxShadow: "0 12px 30px -10px rgba(11,11,11,.35)" }}>{texto}</span>
       )}
     </span>
   );
@@ -199,7 +185,7 @@ export default function App() {
 
   const novoAgente = () => {
     setEditId(null);
-    setRascunho({ id: uid(), nome: "", emoji: "🤖", cor: "#7C5CFF", descricao: "",
+    setRascunho({ id: uid(), nome: "", emoji: "🤖", cor: "#E30613", descricao: "",
       tomId: "amigavel", instrucoes: "", publico: "", saudacao: "", conhecimento: [] });
     setPasso(1);
     setTela("wizard");
@@ -220,19 +206,17 @@ export default function App() {
   return (
     <div className="cia-root" style={{ minHeight: "100vh", display: "flex", position: "relative" }}>
       <style>{CSS}</style>
-      <div className="cia-aurora" />
-      <div className="cia-gridbg" />
 
       {/* SIDEBAR */}
-      <aside style={{ width: 250, background: "rgba(7,10,24,.72)", backdropFilter: "blur(18px)",
-        borderRight: "1px solid rgba(124,92,255,.18)", padding: "26px 18px", position: "sticky", top: 0,
+      <aside style={{ width: 250, background: "#FFFFFF",
+        borderRight: "1px solid var(--line)", padding: "26px 18px", position: "sticky", top: 0,
         height: "100vh", boxSizing: "border-box", flexShrink: 0, zIndex: 2 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 36 }}>
           <div style={{ width: 44, height: 44, borderRadius: 14, display: "flex", alignItems: "center",
-            justifyContent: "center", fontSize: 22, background: "linear-gradient(135deg,#7C5CFF,#22D3EE)",
-            boxShadow: "0 0 26px rgba(124,92,255,.55)" }}>✨</div>
+            justifyContent: "center", fontSize: 22, background: "linear-gradient(135deg,#E30613,#B4050F)",
+            boxShadow: "0 8px 20px -8px rgba(227,6,19,.55)" }}>✨</div>
           <div>
-            <div className="cia-gradtext" style={{ fontWeight: 700, fontSize: 21, letterSpacing: ".02em" }}>CriaIA</div>
+            <div className="cia-gradtext" style={{ fontWeight: 800, fontSize: 21, letterSpacing: "-0.01em" }}>CriaIA</div>
             <div className="cia-eyebrow" style={{ marginTop: 2 }}>AI Agent Studio</div>
           </div>
         </div>
@@ -275,10 +259,9 @@ function NavBtn({ ativo, onClick, icone, label }) {
   return (
     <button className="cia-btn" onClick={onClick} style={{ display: "flex", alignItems: "center", gap: 11,
       padding: "12px 15px", borderRadius: 12, textAlign: "left", fontSize: 14.5, fontWeight: 600,
-      color: ativo ? "#E8ECFF" : "var(--mut)",
-      background: ativo ? "rgba(124,92,255,.16)" : "transparent",
-      border: ativo ? "1px solid rgba(124,92,255,.45)" : "1px solid transparent",
-      boxShadow: ativo ? "0 0 18px rgba(124,92,255,.25)" : "none" }}>
+      color: ativo ? "#FFFFFF" : "var(--mut)",
+      background: ativo ? "linear-gradient(135deg,#E30613,#B4050F)" : "transparent",
+      border: "1px solid transparent" }}>
       <span style={{ fontSize: 17 }}>{icone}</span>{label}
     </button>
   );
@@ -303,7 +286,7 @@ function TelaConfig({ onVoltar }) {
       </h1>
       <p style={{ color: "var(--mut)", marginTop: 4, fontSize: 14.5, lineHeight: 1.65 }}>
         Necessária pra testar seus agentes no chat e usar a entrevista guiada. Crie a sua grátis em{" "}
-        <b style={{ color: "#E8ECFF" }}>console.anthropic.com</b>.
+        <b style={{ color: "#241414" }}>console.anthropic.com</b>.
       </p>
       <div className="cia-card" style={{ padding: 24, marginTop: 20 }}>
         <Campo label="Chave de API" ajuda="Começa com 'sk-ant-'. Fica salva apenas neste navegador — nunca é enviada a nenhum servidor do CriaIA.">
@@ -338,19 +321,19 @@ function Home({ agentes, onNovo, onEditar, onExcluir, onDuplicar, onTestar, onWh
 
       {onboarding && agentes.length === 0 && (
         <div className="cia-card" style={{ padding: 26, marginBottom: 26, position: "relative",
-          borderColor: "rgba(34,211,238,.3)" }}>
+          borderColor: "rgba(180,5,15,.3)" }}>
           <button className="cia-btn" onClick={() => setOnboarding(false)} style={{ position: "absolute", top: 12, right: 14,
             border: "none", background: "transparent", fontSize: 18, color: "var(--faint)" }}>✕</button>
           <h3 style={{ margin: "0 0 10px", fontSize: 18 }}>👋 Bem-vindo(a) ao <span className="cia-gradtext">CriaIA</span>!</h3>
           <p style={{ margin: "0 0 8px", color: "var(--mut)", lineHeight: 1.7, fontSize: 14 }}>
-            Aqui você cria seu próprio assistente de inteligência artificial <b style={{ color: "#E8ECFF" }}>sem precisar programar</b>.
+            Aqui você cria seu próprio assistente de inteligência artificial <b style={{ color: "#241414" }}>sem precisar programar</b>.
             É só responder algumas perguntas simples. Nós cuidamos da parte técnica.
           </p>
           <ol style={{ margin: "8px 0 0", paddingLeft: 20, color: "var(--mut)", lineHeight: 1.9, fontSize: 14 }}>
-            <li><b style={{ color: "#E8ECFF" }}>Identidade:</b> dê um nome e um rostinho ao seu agente.</li>
-            <li><b style={{ color: "#E8ECFF" }}>Personalidade:</b> escolha como ele conversa.</li>
-            <li><b style={{ color: "#E8ECFF" }}>Conhecimento:</b> ensine o que ele precisa saber.</li>
-            <li><b style={{ color: "#E8ECFF" }}>Teste:</b> converse com ele na hora para ver se ficou bom!</li>
+            <li><b style={{ color: "#241414" }}>Identidade:</b> dê um nome e um rostinho ao seu agente.</li>
+            <li><b style={{ color: "#241414" }}>Personalidade:</b> escolha como ele conversa.</li>
+            <li><b style={{ color: "#241414" }}>Conhecimento:</b> ensine o que ele precisa saber.</li>
+            <li><b style={{ color: "#241414" }}>Teste:</b> converse com ele na hora para ver se ficou bom!</li>
           </ol>
           <button className="cia-btn cia-btn-primary" onClick={onNovo} style={{ marginTop: 18 }}>Começar agora →</button>
         </div>
@@ -358,7 +341,7 @@ function Home({ agentes, onNovo, onEditar, onExcluir, onDuplicar, onTestar, onWh
 
       {agentes.length === 0 ? (
         <div style={{ textAlign: "center", padding: "70px 20px", color: "var(--faint)" }}>
-          <div style={{ fontSize: 58, filter: "drop-shadow(0 0 20px rgba(124,92,255,.5))" }}>🤖</div>
+          <div style={{ fontSize: 58 }}>🤖</div>
           <p style={{ fontSize: 15.5 }}>Você ainda não tem agentes. Que tal criar o primeiro?</p>
         </div>
       ) : (
@@ -380,7 +363,7 @@ function CartaoAgente({ agente: a, onTestar, onWhatsApp, onEditar, onDuplicar, o
       <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 12 }}>
         <div style={{ width: 50, height: 50, borderRadius: 14, background: a.cor, display: "flex",
           alignItems: "center", justifyContent: "center", fontSize: 26,
-          boxShadow: "0 0 20px " + a.cor + "66" }}>{a.emoji}</div>
+          boxShadow: "0 8px 18px -6px " + a.cor + "66" }}>{a.emoji}</div>
         <div style={{ minWidth: 0 }}>
           <div style={{ fontWeight: 700, fontSize: 16 }}>{a.nome || "Sem nome"}</div>
           <div className="cia-mono" style={{ fontSize: 11, color: "var(--faint)" }}>{(a.conhecimento || []).length} item(ns) de conhecimento</div>
@@ -391,19 +374,19 @@ function CartaoAgente({ agente: a, onTestar, onWhatsApp, onEditar, onDuplicar, o
       </p>
       {!confirmando ? (
         <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-          <button className="cia-btn" onClick={() => onTestar(a)} style={btnMini("linear-gradient(135deg,#7C5CFF,#22D3EE)", "#05070F")}>💬 Testar</button>
+          <button className="cia-btn" onClick={() => onTestar(a)} style={btnMini("linear-gradient(135deg,#E30613,#B4050F)", "#FFFFFF")}>💬 Testar</button>
           <button className="cia-btn" onClick={() => onWhatsApp(a)} style={btnMini("rgba(52,211,153,.14)", "#34D399")}>
             {a.whatsapp?.phoneNumberId ? "📲 WhatsApp ✓" : "📲 WhatsApp"}
           </button>
-          <button className="cia-btn" onClick={() => onEditar(a)} style={btnMini("rgba(124,92,255,.14)", "#C4B5FD")}>✏️ Editar</button>
-          <button className="cia-btn" onClick={() => onDuplicar(a)} style={btnMini("rgba(232,236,255,.07)", "var(--mut)")}>⧉ Duplicar</button>
+          <button className="cia-btn" onClick={() => onEditar(a)} style={btnMini("rgba(227,6,19,.14)", "#B4050F")}>✏️ Editar</button>
+          <button className="cia-btn" onClick={() => onDuplicar(a)} style={btnMini("rgba(36,20,20,.07)", "var(--mut)")}>⧉ Duplicar</button>
           <button className="cia-btn" onClick={() => setConfirmando(true)} style={btnMini("rgba(251,113,133,.12)", "#FB7185")}>🗑️</button>
         </div>
       ) : (
         <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
           <span style={{ fontSize: 13, color: "#FB7185", fontWeight: 600 }}>Excluir "{a.nome}"? Não tem como desfazer.</span>
-          <button className="cia-btn" onClick={() => onExcluir(a.id)} style={btnMini("rgba(251,113,133,.9)", "#05070F")}>Sim, excluir</button>
-          <button className="cia-btn" onClick={() => setConfirmando(false)} style={btnMini("rgba(232,236,255,.07)", "var(--mut)")}>Cancelar</button>
+          <button className="cia-btn" onClick={() => onExcluir(a.id)} style={btnMini("rgba(251,113,133,.9)", "#FFFFFF")}>Sim, excluir</button>
+          <button className="cia-btn" onClick={() => setConfirmando(false)} style={btnMini("rgba(36,20,20,.07)", "var(--mut)")}>Cancelar</button>
         </div>
       )}
     </div>
@@ -429,9 +412,9 @@ function Wizard({ rascunho, setRascunho, passo, setPasso, onSalvar, onConcluir, 
           <div key={p.n} onClick={() => (p.n < passo || podeAvancar) && setPasso(p.n)}
             style={{ flex: 1, cursor: "pointer" }}>
             <div style={{ height: 5, borderRadius: 4, marginBottom: 9,
-              background: p.n <= passo ? "linear-gradient(90deg,#7C5CFF,#22D3EE)" : "rgba(124,92,255,.14)",
-              boxShadow: p.n <= passo ? "0 0 12px rgba(124,92,255,.5)" : "none" }} />
-            <div style={{ fontSize: 12.5, fontWeight: 700, color: p.n <= passo ? "#22D3EE" : "var(--faint)" }}>
+              background: p.n <= passo ? "linear-gradient(90deg,#E30613,#B4050F)" : "rgba(227,6,19,.14)",
+              boxShadow: "none" }} />
+            <div style={{ fontSize: 12.5, fontWeight: 700, color: p.n <= passo ? "#B4050F" : "var(--faint)" }}>
               {p.icone} {p.titulo}
             </div>
             <div style={{ fontSize: 11, color: "var(--faint)" }}>{p.sub}</div>
@@ -456,7 +439,7 @@ function Wizard({ rascunho, setRascunho, passo, setPasso, onSalvar, onConcluir, 
           </button>
         ) : (
           <button className="cia-btn cia-btn-primary" onClick={onConcluir}
-            style={{ background: "linear-gradient(135deg,#34D399,#22D3EE)", boxShadow: "0 0 22px rgba(52,211,153,.4)" }}>
+            style={{ background: "linear-gradient(135deg,#34D399,#10B981)", boxShadow: "0 10px 22px -10px rgba(52,211,153,.45)" }}>
             ✔️ Salvar e concluir
           </button>
         )}
@@ -468,7 +451,7 @@ function Wizard({ rascunho, setRascunho, passo, setPasso, onSalvar, onConcluir, 
 function Campo({ label, ajuda, children }) {
   return (
     <div style={{ marginBottom: 22 }}>
-      <label style={{ display: "block", fontWeight: 600, fontSize: 14.5, marginBottom: 9, color: "#E8ECFF" }}>
+      <label style={{ display: "block", fontWeight: 600, fontSize: 14.5, marginBottom: 9, color: "#241414" }}>
         {label}{ajuda && <Ajuda texto={ajuda} />}
       </label>
       {children}
@@ -489,9 +472,9 @@ function PassoIdentidade({ rascunho, set }) {
           {EMOJIS.map(e => (
             <button key={e} className="cia-btn" onClick={() => set("emoji", e)} style={{ width: 44, height: 44, fontSize: 22,
               borderRadius: 12,
-              border: rascunho.emoji === e ? "1px solid #22D3EE" : "1px solid rgba(124,92,255,.2)",
-              background: rascunho.emoji === e ? "rgba(34,211,238,.12)" : "rgba(6,9,22,.6)",
-              boxShadow: rascunho.emoji === e ? "0 0 14px rgba(34,211,238,.35)" : "none" }}>{e}</button>
+              border: rascunho.emoji === e ? "1px solid #B4050F" : "1px solid rgba(227,6,19,.2)",
+              background: rascunho.emoji === e ? "rgba(180,5,15,.12)" : "rgba(247,243,240,.6)",
+              boxShadow: "none" }}>{e}</button>
           ))}
         </div>
       </Campo>
@@ -500,8 +483,8 @@ function PassoIdentidade({ rascunho, set }) {
           {CORES.map(c => (
             <button key={c} className="cia-btn" onClick={() => set("cor", c)} style={{ width: 36, height: 36, borderRadius: "50%",
               background: c,
-              border: rascunho.cor === c ? "2px solid #E8ECFF" : "2px solid transparent",
-              boxShadow: rascunho.cor === c ? "0 0 16px " + c : "0 0 8px " + c + "55" }} />
+              border: rascunho.cor === c ? "2px solid #241414" : "2px solid transparent",
+              boxShadow: rascunho.cor === c ? "0 3px 10px -2px " + c : "none" }} />
           ))}
         </div>
       </Campo>
@@ -522,10 +505,10 @@ function PassoPersonalidade({ rascunho, set }) {
           {TOM_OPCOES.map(t => (
             <button key={t.id} className="cia-btn" onClick={() => set("tomId", t.id)} style={{ textAlign: "left", padding: 15,
               borderRadius: 14,
-              border: rascunho.tomId === t.id ? "1px solid #22D3EE" : "1px solid rgba(124,92,255,.2)",
-              background: rascunho.tomId === t.id ? "rgba(34,211,238,.1)" : "rgba(6,9,22,.55)",
-              boxShadow: rascunho.tomId === t.id ? "0 0 18px rgba(34,211,238,.25)" : "none" }}>
-              <div style={{ fontWeight: 700, fontSize: 14, color: "#E8ECFF" }}>{t.emoji} {t.nome}</div>
+              border: rascunho.tomId === t.id ? "1px solid #B4050F" : "1px solid rgba(227,6,19,.2)",
+              background: rascunho.tomId === t.id ? "rgba(180,5,15,.1)" : "rgba(247,243,240,.55)",
+              boxShadow: "none" }}>
+              <div style={{ fontWeight: 700, fontSize: 14, color: "#241414" }}>{t.emoji} {t.nome}</div>
               <div style={{ fontSize: 12, color: "var(--mut)", marginTop: 5, lineHeight: 1.45 }}>{t.desc}</div>
             </button>
           ))}
@@ -591,7 +574,7 @@ function PassoConhecimento({ rascunho, set }) {
     <div>
       <h3 style={{ marginTop: 0, fontSize: 17 }}>🧠 O que seu agente precisa saber?</h3>
       <p style={{ color: "var(--mut)", marginTop: 0, fontSize: 14, lineHeight: 1.6 }}>
-        Ensine o agente com textos ou documentos. Ele vai usar essas informações para responder. <b style={{ color: "#E8ECFF" }}>É opcional</b>, mas deixa o agente muito mais útil!
+        Ensine o agente com textos ou documentos. Ele vai usar essas informações para responder. <b style={{ color: "#241414" }}>É opcional</b>, mas deixa o agente muito mais útil!
       </p>
 
       <div style={{ display: "flex", gap: 8, marginBottom: 16, flexWrap: "wrap" }}>
@@ -601,7 +584,7 @@ function PassoConhecimento({ rascunho, set }) {
       </div>
 
       {aba === "texto" && (
-        <div style={{ background: "rgba(6,9,22,.55)", border: "1px solid rgba(124,92,255,.16)", borderRadius: 14, padding: 16, marginBottom: 18 }}>
+        <div style={{ background: "rgba(247,243,240,.55)", border: "1px solid rgba(227,6,19,.16)", borderRadius: 14, padding: 16, marginBottom: 18 }}>
           <input className="cia-input" value={titulo} onChange={e => setTitulo(e.target.value)}
             placeholder="Título (ex: Horário de funcionamento)" style={{ marginBottom: 10 }} />
           <textarea className="cia-input" value={conteudo} onChange={e => setConteudo(e.target.value)} rows={4}
@@ -611,10 +594,10 @@ function PassoConhecimento({ rascunho, set }) {
         </div>
       )}
       {aba === "arquivo" && (
-        <div style={{ background: "rgba(6,9,22,.55)", border: "1px dashed rgba(34,211,238,.4)", borderRadius: 14, padding: 20, marginBottom: 18, textAlign: "center" }}>
+        <div style={{ background: "rgba(247,243,240,.55)", border: "1px dashed rgba(180,5,15,.4)", borderRadius: 14, padding: 20, marginBottom: 18, textAlign: "center" }}>
           <input ref={fileRef} type="file" accept=".pdf,.txt,.md,text/plain" onChange={onArquivo} style={{ display: "none" }} />
-          <div style={{ fontSize: 40, filter: "drop-shadow(0 0 14px rgba(34,211,238,.5))" }}>📄</div>
-          <p style={{ color: "var(--mut)", margin: "8px 0 12px", fontSize: 13.5 }}>Envie um arquivo <b style={{ color: "#E8ECFF" }}>PDF</b>, <b style={{ color: "#E8ECFF" }}>.txt</b> ou <b style={{ color: "#E8ECFF" }}>.md</b>. Nós extraímos o texto automaticamente.</p>
+          <div style={{ fontSize: 40 }}>📄</div>
+          <p style={{ color: "var(--mut)", margin: "8px 0 12px", fontSize: 13.5 }}>Envie um arquivo <b style={{ color: "#241414" }}>PDF</b>, <b style={{ color: "#241414" }}>.txt</b> ou <b style={{ color: "#241414" }}>.md</b>. Nós extraímos o texto automaticamente.</p>
           <button className="cia-btn cia-btn-primary" onClick={() => fileRef.current.click()} disabled={carregando}>
             {carregando ? "⏳ Lendo arquivo..." : "📎 Escolher arquivo"}
           </button>
@@ -633,7 +616,7 @@ function PassoConhecimento({ rascunho, set }) {
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
             {rascunho.conhecimento.map(k => (
               <div key={k.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center",
-                background: "rgba(6,9,22,.55)", border: "1px solid rgba(124,92,255,.18)", borderRadius: 12, padding: "10px 14px" }}>
+                background: "rgba(247,243,240,.55)", border: "1px solid rgba(227,6,19,.18)", borderRadius: 12, padding: "10px 14px" }}>
                 <div style={{ minWidth: 0 }}>
                   <div style={{ fontWeight: 600, fontSize: 13.5 }}>{k.tipo === "arquivo" ? "📄" : k.tipo === "entrevista" ? "🎓" : "✍️"} {k.titulo}</div>
                   <div style={{ fontSize: 12, color: "var(--faint)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", maxWidth: 480 }}>
@@ -725,9 +708,9 @@ function Entrevista({ rascunho, set }) {
 
   if (!iniciada) {
     return (
-      <div style={{ background: "rgba(6,9,22,.55)", border: "1px solid rgba(124,92,255,.16)", borderRadius: 14, padding: 16, marginBottom: 18 }}>
+      <div style={{ background: "rgba(247,243,240,.55)", border: "1px solid rgba(227,6,19,.16)", borderRadius: 14, padding: 16, marginBottom: 18 }}>
         <p style={{ color: "var(--mut)", fontSize: 13.5, marginTop: 0, lineHeight: 1.65 }}>
-          🎓 <b style={{ color: "#E8ECFF" }}>Como funciona:</b> você escolhe um tema e a IA te entrevista, fazendo perguntas
+          🎓 <b style={{ color: "#241414" }}>Como funciona:</b> você escolhe um tema e a IA te entrevista, fazendo perguntas
           inteligentes para descobrir tudo que o agente precisa saber. Você só responde — nós
           organizamos tudo na base de conhecimento automaticamente!
         </p>
@@ -743,21 +726,21 @@ function Entrevista({ rascunho, set }) {
   }
 
   return (
-    <div style={{ background: "rgba(6,9,22,.55)", border: "1px solid rgba(124,92,255,.16)", borderRadius: 14, padding: 16, marginBottom: 18 }}>
+    <div style={{ background: "rgba(247,243,240,.55)", border: "1px solid rgba(227,6,19,.16)", borderRadius: 14, padding: 16, marginBottom: 18 }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10, flexWrap: "wrap", gap: 8 }}>
         <div style={{ fontWeight: 700, fontSize: 13.5 }}>🎤 Entrevista: {tema}</div>
-        <div className="cia-mono" style={{ fontSize: 11, color: "#22D3EE" }}>{pares.length} resposta(s) coletada(s)</div>
+        <div className="cia-mono" style={{ fontSize: 11, color: "#B4050F" }}>{pares.length} resposta(s) coletada(s)</div>
       </div>
-      <div className="cia-scroll" style={{ height: 280, overflowY: "auto", background: "rgba(5,7,15,.6)",
-        border: "1px solid rgba(124,92,255,.18)", borderRadius: 12, padding: 14, marginBottom: 10 }}>
+      <div className="cia-scroll" style={{ height: 280, overflowY: "auto", background: "rgba(247,243,240,.6)",
+        border: "1px solid rgba(227,6,19,.18)", borderRadius: 12, padding: 14, marginBottom: 10 }}>
         {msgs.filter((m, i) => i > 0).map((m, i) => (
           <div key={i} style={{ display: "flex", justifyContent: m.role === "user" ? "flex-end" : "flex-start", marginBottom: 10 }}>
             <div style={{ maxWidth: "82%", padding: "9px 13px", borderRadius: 12, fontSize: 13.5, lineHeight: 1.55,
               whiteSpace: "pre-wrap",
-              background: m.role === "user" ? "linear-gradient(135deg,#7C5CFF,#22D3EE)" : "rgba(124,92,255,.14)",
-              color: m.role === "user" ? "#05070F" : "#D6DCFF",
+              background: m.role === "user" ? "linear-gradient(135deg,#E30613,#B4050F)" : "rgba(227,6,19,.14)",
+              color: m.role === "user" ? "#FFFFFF" : "#241414",
               fontWeight: m.role === "user" ? 600 : 400,
-              border: m.role === "user" ? "none" : "1px solid rgba(124,92,255,.25)" }}>
+              border: m.role === "user" ? "none" : "1px solid rgba(227,6,19,.25)" }}>
               {m.role === "assistant" ? "🎓 " : ""}{m.content}
             </div>
           </div>
@@ -773,7 +756,7 @@ function Entrevista({ rascunho, set }) {
         <button className="cia-btn cia-btn-primary" onClick={responder} disabled={carregando || !resposta.trim()}>➤</button>
       </div>
       <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-        <button className="cia-btn" onClick={pular} disabled={carregando} style={btnMini("rgba(232,236,255,.07)", "var(--mut)")}>⏭️ Não sei / pular pergunta</button>
+        <button className="cia-btn" onClick={pular} disabled={carregando} style={btnMini("rgba(36,20,20,.07)", "var(--mut)")}>⏭️ Não sei / pular pergunta</button>
         <button className="cia-btn" onClick={concluir} style={btnMini("rgba(52,211,153,.16)", "#34D399")}>✔️ Concluir e salvar conhecimento</button>
       </div>
     </div>
@@ -786,7 +769,7 @@ function PassoTeste({ rascunho, onSalvar }) {
     <div>
       <h3 style={{ marginTop: 0, fontSize: 17 }}>💬 Teste seu agente agora!</h3>
       <p style={{ color: "var(--mut)", marginTop: 0, fontSize: 14, lineHeight: 1.6 }}>
-        Converse com <b style={{ color: "#E8ECFF" }}>{rascunho.nome}</b> para ver se ele responde do jeito que você quer.
+        Converse com <b style={{ color: "#241414" }}>{rascunho.nome}</b> para ver se ele responde do jeito que você quer.
         Se algo não ficou bom, volte e ajuste. 😉
       </p>
       <ChatBox agente={rascunho} altura={380} />
@@ -806,7 +789,7 @@ function ChatPlayground({ agente, onVoltar }) {
       <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 18 }}>
         <div style={{ width: 54, height: 54, borderRadius: 16, background: agente.cor, display: "flex",
           alignItems: "center", justifyContent: "center", fontSize: 28,
-          boxShadow: "0 0 24px " + agente.cor + "77" }}>{agente.emoji}</div>
+          boxShadow: "0 8px 18px -6px " + agente.cor + "77" }}>{agente.emoji}</div>
         <div>
           <div className="cia-eyebrow" style={{ marginBottom: 3 }}>Playground de teste</div>
           <h1 style={{ margin: 0, fontSize: 24 }}>{agente.nome}</h1>
@@ -921,21 +904,21 @@ function TelaWhatsApp({ agente, onVoltar, onAtualizar }) {
       <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 6 }}>
         <div style={{ width: 54, height: 54, borderRadius: 16, background: agente.cor, display: "flex",
           alignItems: "center", justifyContent: "center", fontSize: 28,
-          boxShadow: "0 0 24px " + agente.cor + "77" }}>{agente.emoji}</div>
+          boxShadow: "0 8px 18px -6px " + agente.cor + "77" }}>{agente.emoji}</div>
         <div>
           <div className="cia-eyebrow" style={{ marginBottom: 3 }}>Canal · WhatsApp</div>
           <h1 style={{ margin: 0, fontSize: 24 }}>Conectar {agente.nome} ao WhatsApp</h1>
           <span className="cia-mono" style={{ display: "inline-block", marginTop: 6, fontSize: 11.5, fontWeight: 600,
             padding: "3px 12px", borderRadius: 20,
-            background: conectado ? "rgba(52,211,153,.12)" : "rgba(232,236,255,.06)",
-            border: conectado ? "1px solid rgba(52,211,153,.45)" : "1px solid rgba(124,92,255,.25)",
+            background: conectado ? "rgba(52,211,153,.12)" : "rgba(36,20,20,.06)",
+            border: conectado ? "1px solid rgba(52,211,153,.45)" : "1px solid rgba(227,6,19,.25)",
             color: conectado ? "#34D399" : "var(--mut)" }}>
             {conectado ? "● Credenciais salvas" : "○ Ainda não conectado"}
           </span>
         </div>
       </div>
       <p style={{ color: "var(--mut)", fontSize: 14, marginTop: 12, lineHeight: 1.65 }}>
-        Vamos usar a <b style={{ color: "#E8ECFF" }}>API oficial da Meta (WhatsApp Cloud API)</b> — a forma segura e permitida,
+        Vamos usar a <b style={{ color: "#241414" }}>API oficial da Meta (WhatsApp Cloud API)</b> — a forma segura e permitida,
         sem risco de banimento do número. É grátis para testar. Siga o passo a passo:
       </p>
 
@@ -943,10 +926,10 @@ function TelaWhatsApp({ agente, onVoltar, onAtualizar }) {
       <div className="cia-card" style={{ padding: 24, marginBottom: 18 }}>
         <h3 style={{ marginTop: 0, fontSize: 16 }}>📋 Passo 1 — Pegue suas chaves no painel da Meta (≈10 min)</h3>
         <ol style={{ color: "var(--mut)", fontSize: 13.5, lineHeight: 1.95, paddingLeft: 20, margin: 0 }}>
-          <li>Acesse <b style={{ color: "#E8ECFF" }}>developers.facebook.com</b>, entre com sua conta do Facebook e clique em <b style={{ color: "#E8ECFF" }}>My Apps → Create App</b> (tipo <b style={{ color: "#E8ECFF" }}>Business</b>).</li>
-          <li>Dentro do app, procure o produto <b style={{ color: "#E8ECFF" }}>WhatsApp</b> e clique em <b style={{ color: "#E8ECFF" }}>Set up</b>. A Meta te dá um <b style={{ color: "#E8ECFF" }}>número de teste grátis</b> na hora.</li>
-          <li>Na página <b style={{ color: "#E8ECFF" }}>API Setup</b>, copie dois códigos: o <b style={{ color: "#E8ECFF" }}>Temporary access token</b> e o <b style={{ color: "#E8ECFF" }}>Phone number ID</b>.</li>
-          <li>Ainda nessa página, no campo <b style={{ color: "#E8ECFF" }}>"To"</b>, cadastre o seu celular como destinatário de teste (a Meta manda um código de confirmação).</li>
+          <li>Acesse <b style={{ color: "#241414" }}>developers.facebook.com</b>, entre com sua conta do Facebook e clique em <b style={{ color: "#241414" }}>My Apps → Create App</b> (tipo <b style={{ color: "#241414" }}>Business</b>).</li>
+          <li>Dentro do app, procure o produto <b style={{ color: "#241414" }}>WhatsApp</b> e clique em <b style={{ color: "#241414" }}>Set up</b>. A Meta te dá um <b style={{ color: "#241414" }}>número de teste grátis</b> na hora.</li>
+          <li>Na página <b style={{ color: "#241414" }}>API Setup</b>, copie dois códigos: o <b style={{ color: "#241414" }}>Temporary access token</b> e o <b style={{ color: "#241414" }}>Phone number ID</b>.</li>
+          <li>Ainda nessa página, no campo <b style={{ color: "#241414" }}>"To"</b>, cadastre o seu celular como destinatário de teste (a Meta manda um código de confirmação).</li>
         </ol>
       </div>
 
@@ -978,23 +961,23 @@ function TelaWhatsApp({ agente, onVoltar, onAtualizar }) {
             placeholder="5513999999999" />
         </Campo>
         <button className="cia-btn cia-btn-primary" onClick={enviarTeste} disabled={enviando}
-          style={{ background: "linear-gradient(135deg,#34D399,#22D3EE)", boxShadow: "0 0 22px rgba(52,211,153,.35)" }}>
+          style={{ background: "linear-gradient(135deg,#34D399,#10B981)", boxShadow: "0 10px 22px -10px rgba(52,211,153,.4)" }}>
           {enviando ? "⏳ Enviando..." : "📲 Enviar mensagem de teste"}
         </button>
         {status && <p style={{ marginTop: 14, fontSize: 13.5, lineHeight: 1.65, padding: "11px 15px", borderRadius: 12,
-          color: statusOk ? "#34D399" : "#FBBF24",
-          background: statusOk ? "rgba(52,211,153,.08)" : "rgba(251,191,36,.07)",
-          border: statusOk ? "1px solid rgba(52,211,153,.3)" : "1px solid rgba(251,191,36,.25)" }}>{status}</p>}
+          color: statusOk ? "#34D399" : "#FAB219",
+          background: statusOk ? "rgba(52,211,153,.08)" : "rgba(250,178,25,.07)",
+          border: statusOk ? "1px solid rgba(52,211,153,.3)" : "1px solid rgba(250,178,25,.25)" }}>{status}</p>}
       </div>
 
       {/* RESPOSTAS AUTOMÁTICAS */}
       <div className="cia-card" style={{ padding: 24, marginBottom: 18 }}>
         <h3 style={{ marginTop: 0, fontSize: 16 }}>🤖 Passo 4 — Fazer o agente responder sozinho</h3>
         <p style={{ color: "var(--mut)", fontSize: 13.5, lineHeight: 1.7, marginTop: 0 }}>
-          Para o agente <b style={{ color: "#E8ECFF" }}>receber</b> as mensagens das pessoas e responder automaticamente 24h por dia,
-          é preciso um pequeno <b style={{ color: "#E8ECFF" }}>servidor</b> sempre ligado na internet (o navegador não consegue fazer isso sozinho).
-          A boa notícia: <b style={{ color: "#E8ECFF" }}>nós já geramos esse servidor pronto para você</b>, com toda a personalidade e o
-          conhecimento do {agente.nome} embutidos. É só publicar em um serviço gratuito como <b style={{ color: "#E8ECFF" }}>Render</b> ou <b style={{ color: "#E8ECFF" }}>Railway</b>.
+          Para o agente <b style={{ color: "#241414" }}>receber</b> as mensagens das pessoas e responder automaticamente 24h por dia,
+          é preciso um pequeno <b style={{ color: "#241414" }}>servidor</b> sempre ligado na internet (o navegador não consegue fazer isso sozinho).
+          A boa notícia: <b style={{ color: "#241414" }}>nós já geramos esse servidor pronto para você</b>, com toda a personalidade e o
+          conhecimento do {agente.nome} embutidos. É só publicar em um serviço gratuito como <b style={{ color: "#241414" }}>Render</b> ou <b style={{ color: "#241414" }}>Railway</b>.
         </p>
         <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 12 }}>
           <button className="cia-btn cia-btn-primary" onClick={() => setMostrarCodigo(v => !v)}>
@@ -1008,7 +991,7 @@ function TelaWhatsApp({ agente, onVoltar, onAtualizar }) {
         </div>
         {mostrarCodigo && (
           <textarea readOnly className="cia-input cia-mono cia-scroll" value={codigo} rows={14}
-            style={{ fontSize: 12, background: "#060914", color: "#9BE8FF", resize: "vertical", lineHeight: 1.6 }} />
+            style={{ fontSize: 12, background: "#241414", color: "#F7F3F0", resize: "vertical", lineHeight: 1.6 }} />
         )}
         <p style={{ fontSize: 12, color: "var(--faint)", lineHeight: 1.65, marginBottom: 0 }}>
           ⚠️ Importante: mantenha o agente focado em tarefas do seu negócio (atendimento, dúvidas, pedidos).
@@ -1049,10 +1032,10 @@ function ChatBox({ agente, altura }) {
 
   return (
     <div className="cia-card" style={{ overflow: "hidden" }}>
-      <div className="cia-scroll" style={{ height: altura, overflowY: "auto", padding: 18, background: "rgba(5,7,15,.5)" }}>
+      <div className="cia-scroll" style={{ height: altura, overflowY: "auto", padding: 18, background: "rgba(247,243,240,.5)" }}>
         {mensagens.length === 0 && (
           <div style={{ textAlign: "center", color: "var(--faint)", marginTop: 40 }}>
-            <div style={{ fontSize: 38, filter: "drop-shadow(0 0 16px " + agente.cor + "88)" }}>{agente.emoji}</div>
+            <div style={{ fontSize: 38 }}>{agente.emoji}</div>
             <p style={{ fontSize: 14 }}>Envie uma mensagem para começar a testar!</p>
           </div>
         )}
@@ -1060,19 +1043,19 @@ function ChatBox({ agente, altura }) {
           <div key={i} style={{ display: "flex", justifyContent: m.role === "user" ? "flex-end" : "flex-start", marginBottom: 12 }}>
             <div style={{ maxWidth: "78%", padding: "10px 15px", borderRadius: 14, fontSize: 14.5, lineHeight: 1.55,
               whiteSpace: "pre-wrap",
-              background: m.role === "user" ? "linear-gradient(135deg,#7C5CFF,#22D3EE)" : "rgba(232,236,255,.05)",
-              color: m.role === "user" ? "#05070F" : "#E8ECFF",
+              background: m.role === "user" ? "linear-gradient(135deg,#E30613,#B4050F)" : "rgba(36,20,20,.05)",
+              color: m.role === "user" ? "#FFFFFF" : "#241414",
               fontWeight: m.role === "user" ? 600 : 400,
-              border: m.role === "user" ? "none" : "1px solid rgba(124,92,255,.22)",
-              boxShadow: m.role === "user" ? "0 4px 18px rgba(124,92,255,.3)" : "none" }}>
+              border: m.role === "user" ? "none" : "1px solid rgba(227,6,19,.22)",
+              boxShadow: m.role === "user" ? "0 4px 18px rgba(227,6,19,.3)" : "none" }}>
               {m.content}
             </div>
           </div>
         ))}
         {pensando && (
           <div style={{ display: "flex", justifyContent: "flex-start", marginBottom: 12 }}>
-            <div style={{ padding: "10px 16px", borderRadius: 14, background: "rgba(232,236,255,.05)",
-              border: "1px solid rgba(124,92,255,.22)", color: "var(--faint)", fontSize: 13.5 }}>
+            <div style={{ padding: "10px 16px", borderRadius: 14, background: "rgba(36,20,20,.05)",
+              border: "1px solid rgba(227,6,19,.22)", color: "var(--faint)", fontSize: 13.5 }}>
               {agente.nome} está digitando…
             </div>
           </div>
@@ -1081,7 +1064,7 @@ function ChatBox({ agente, altura }) {
       </div>
       {erro && <div style={{ padding: "10px 16px", background: "rgba(251,113,133,.1)",
         borderTop: "1px solid rgba(251,113,133,.3)", color: "#FB7185", fontSize: 13 }}>{erro}</div>}
-      <div style={{ display: "flex", gap: 10, padding: 14, borderTop: "1px solid rgba(124,92,255,.18)" }}>
+      <div style={{ display: "flex", gap: 10, padding: 14, borderTop: "1px solid rgba(227,6,19,.18)" }}>
         <input className="cia-input" value={texto} onChange={e => setTexto(e.target.value)}
           onKeyDown={e => e.key === "Enter" && enviar()} placeholder="Digite sua mensagem..."
           disabled={pensando} />
@@ -1092,10 +1075,10 @@ function ChatBox({ agente, altura }) {
 }
 
 // ================= ESTILOS AUXILIARES =================
-const btnMini = (bg, cor) => ({ padding: "7px 13px", borderRadius: 9, border: "1px solid rgba(124,92,255,.18)",
+const btnMini = (bg, cor) => ({ padding: "7px 13px", borderRadius: 9, border: "1px solid rgba(227,6,19,.18)",
   background: bg, color: cor, fontWeight: 600, fontSize: 12.5, cursor: "pointer", fontFamily: "inherit" });
 const abaBtn = (ativo) => ({ padding: "9px 17px", borderRadius: 12,
-  border: ativo ? "1px solid #22D3EE" : "1px solid rgba(124,92,255,.22)",
-  background: ativo ? "rgba(34,211,238,.12)" : "rgba(6,9,22,.5)",
-  color: ativo ? "#22D3EE" : "var(--mut)", fontWeight: 700, fontSize: 13.5, cursor: "pointer",
-  boxShadow: ativo ? "0 0 14px rgba(34,211,238,.25)" : "none", fontFamily: "inherit" });
+  border: ativo ? "1px solid #B4050F" : "1px solid rgba(227,6,19,.22)",
+  background: ativo ? "rgba(180,5,15,.12)" : "rgba(247,243,240,.5)",
+  color: ativo ? "#B4050F" : "var(--mut)", fontWeight: 700, fontSize: 13.5, cursor: "pointer",
+  boxShadow: "none", fontFamily: "inherit" });
