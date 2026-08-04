@@ -53,6 +53,13 @@ const PASSOS = [
   { n: 4, titulo: "Teste", sub: "Converse e valide!", icone: "💬" },
 ];
 const uid = () => Math.random().toString(36).slice(2, 10);
+const MARCA_NOVA_MENSAGEM = "[[NOVA_MENSAGEM]]";
+function separarMensagens(texto) {
+  return String(texto || "")
+    .split(MARCA_NOVA_MENSAGEM)
+    .map(p => p.trim())
+    .filter(Boolean);
+}
 
 // ================= PERSISTÊNCIA LOCAL =================
 const LS_AGENTES = "criaia_agentes";
@@ -71,6 +78,8 @@ function criarAgenteSeedInstitutoMix() {
     instrucoes: `Você conduz a venda seguindo a metodologia oficial "Clube de Vendas Instituto Mix" (10 passos), adaptada para uma conversa de texto no WhatsApp. Elementos presenciais do método original (aperto de mão, oferecer café, vestimenta) não se aplicam aqui e devem ser ignorados.
 
 Estilo de comunicação: fale de um jeito humano e natural, como uma pessoa de verdade batendo papo no WhatsApp — nada de linguagem corporativa, formal ou repetitiva. Continue persuasiva (o objetivo é vender), mas com leveza, sem soar como script decorado. Respostas um pouco mais curtas que o padrão — direto ao ponto, sem cortar informação importante nem pular etapas do roteiro. No WhatsApp, negrito é com um asterisco só (*assim*), nunca dois (nunca **assim**) — use pouco, só quando realmente ajudar a destacar algo.
+
+Quebra de assunto: nunca use traço (-), travessão ou qualquer linha separadora pra mudar de assunto dentro do texto — pessoa de verdade não escreve assim no WhatsApp, ela manda outra mensagem. Se precisar falar de mais de um assunto na mesma resposta, escreva cada assunto como se fosse uma mensagem separada e coloque a marca [[NOVA_MENSAGEM]] sozinha, numa linha própria, entre uma mensagem e outra. Essa marca nunca aparece pro lead — o sistema usa ela só pra separar em mensagens de verdade. Não coloque a marca antes da primeira mensagem nem depois da última.
 
 Regra de compliance: desde jan/2026 a Meta proíbe bots de IA não identificados no WhatsApp. Deixe claro logo na abertura que o atendimento é feito por um assistente virtual do Instituto Mix — nunca esconda isso do lead.
 
@@ -1016,11 +1025,16 @@ function gerarCodigoServidor(agente, config) {
     + '    const msg = req.body?.entry?.[0]?.changes?.[0]?.value?.messages?.[0];\n'
     + '    if (!msg || msg.type !== "text") return;\n'
     + '    const resposta = await perguntarAoAgente(msg.text.body);\n'
-    + '    await fetch("https://graph.facebook.com/v21.0/" + PHONE_NUMBER_ID + "/messages", {\n'
-    + '      method: "POST",\n'
-    + '      headers: { "Content-Type": "application/json", Authorization: "Bearer " + WHATSAPP_TOKEN },\n'
-    + '      body: JSON.stringify({ messaging_product: "whatsapp", to: msg.from, type: "text", text: { body: resposta } }),\n'
-    + '    });\n'
+    + '    // O agente separa assuntos diferentes com [[NOVA_MENSAGEM]] — cada parte vira uma mensagem de WhatsApp própria\n'
+    + '    const partes = resposta.split("[[NOVA_MENSAGEM]]").map(p => p.trim()).filter(Boolean);\n'
+    + '    for (const parte of (partes.length ? partes : [resposta.trim()])) {\n'
+    + '      await fetch("https://graph.facebook.com/v21.0/" + PHONE_NUMBER_ID + "/messages", {\n'
+    + '        method: "POST",\n'
+    + '        headers: { "Content-Type": "application/json", Authorization: "Bearer " + WHATSAPP_TOKEN },\n'
+    + '        body: JSON.stringify({ messaging_product: "whatsapp", to: msg.from, type: "text", text: { body: parte } }),\n'
+    + '      });\n'
+    + '      await new Promise(r => setTimeout(r, 900));\n'
+    + '    }\n'
     + '  } catch (e) { console.error(e); }\n'
     + '});\n\n'
     + 'async function perguntarAoAgente(texto) {\n'
@@ -1207,7 +1221,8 @@ function ChatBox({ agente, altura }) {
     setMensagens(historico); setTexto(""); setErro(""); setPensando(true);
     try {
       const resposta = await chamarIA(systemPrompt, historico);
-      setMensagens(m => [...m, { role: "assistant", content: resposta }]);
+      const partes = separarMensagens(resposta);
+      setMensagens(m => [...m, ...(partes.length ? partes : [resposta.trim()]).map(p => ({ role: "assistant", content: p }))]);
     } catch (err) {
       setErro("😕 Ops! Não consegui responder agora. Tente de novo em instantes. (Detalhe técnico: " + err.message + ")");
     } finally {
