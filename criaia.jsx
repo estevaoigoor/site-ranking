@@ -57,9 +57,10 @@ const uid = () => Math.random().toString(36).slice(2, 10);
 // ================= PERSISTÊNCIA LOCAL =================
 const LS_AGENTES = "criaia_agentes";
 const LS_API_KEY = "criaia_api_key";
+const SEED_VENDEDOR_ID = "seed-vendedor-im-itanhaem-sobrancelhas";
 function criarAgenteSeedInstitutoMix() {
   return {
-    id: uid(),
+    id: SEED_VENDEDOR_ID,
     nome: "Vendedor IA — Instituto Mix Itanhaém",
     emoji: "🎯",
     cor: "#E30613",
@@ -241,7 +242,8 @@ function carregarAgentes() {
   try {
     const raw = localStorage.getItem(LS_AGENTES);
     const salvos = raw ? JSON.parse(raw) : [];
-    return salvos.length ? salvos : [criarAgenteSeedInstitutoMix()];
+    const temVendedor = salvos.some(a => a.id === SEED_VENDEDOR_ID);
+    return temVendedor ? salvos : [...salvos, criarAgenteSeedInstitutoMix()];
   } catch (e) { return [criarAgenteSeedInstitutoMix()]; }
 }
 function salvarAgentesLS(agentes) {
