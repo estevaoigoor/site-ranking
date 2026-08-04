@@ -9,463 +9,463 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 <style>
-  :root {
-    --brand-red: #E30613;
-    --brand-red-dark: #B4050F;
-    --brand-amber: #FAB219;
-    --brand-white: #FFFFFF;
-    --brand-dark: #0B0B0B;
-    --bg: #F7F3F0;
-    --card: #FFFFFF;
-    --text: #241414;
-    --muted: #8A7A78;
-    --border: #EDE4E1;
-  }
-  * { box-sizing: border-box; }
-  body {
-    margin: 0;
-    font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    background: var(--bg);
-    color: var(--text);
-  }
+:root {
+--brand-red: #E30613;
+--brand-red-dark: #B4050F;
+--brand-amber: #FAB219;
+--brand-white: #FFFFFF;
+--brand-dark: #0B0B0B;
+--bg: #F7F3F0;
+--card: #FFFFFF;
+--text: #241414;
+--muted: #8A7A78;
+--border: #EDE4E1;
+}
+* { box-sizing: border-box; }
+body {
+margin: 0;
+font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+background: var(--bg);
+color: var(--text);
+}
 
-  .banner {
-    background: linear-gradient(135deg, var(--brand-red) 0%, var(--brand-red-dark) 100%);
-    padding: 26px 20px 52px;
-    color: var(--brand-white);
-    position: relative;
-    overflow: hidden;
-  }
-  .banner::after {
-    content: "";
-    position: absolute;
-    right: -80px;
-    top: -80px;
-    width: 260px;
-    height: 260px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.06);
-  }
-  .brandmark {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 14px;
-    position: relative;
-  }
-  .brandmark svg { width: 22px; height: 18px; flex-shrink: 0; }
-  .brandmark span {
-    font-weight: 700;
-    font-size: 0.9rem;
-    letter-spacing: 0.02em;
-  }
-  .banner h1 {
-    margin: 0 0 6px;
-    font-size: clamp(1.4rem, 3vw, 1.9rem);
-    font-weight: 800;
-    letter-spacing: -0.01em;
-    position: relative;
-  }
-  .banner p {
-    margin: 0;
-    max-width: 60ch;
-    font-size: 0.88rem;
-    font-weight: 400;
-    color: rgba(255, 255, 255, 0.88);
-    position: relative;
-  }
+.banner {
+background: linear-gradient(135deg, var(--brand-red) 0%, var(--brand-red-dark) 100%);
+padding: 26px 20px 52px;
+color: var(--brand-white);
+position: relative;
+overflow: hidden;
+}
+.banner::after {
+content: "";
+position: absolute;
+right: -80px;
+top: -80px;
+width: 260px;
+height: 260px;
+border-radius: 50%;
+background: rgba(255, 255, 255, 0.06);
+}
+.brandmark {
+display: flex;
+align-items: center;
+gap: 10px;
+margin-bottom: 14px;
+position: relative;
+}
+.brandmark svg { width: 22px; height: 18px; flex-shrink: 0; }
+.brandmark span {
+font-weight: 700;
+font-size: 0.9rem;
+letter-spacing: 0.02em;
+}
+.banner h1 {
+margin: 0 0 6px;
+font-size: clamp(1.4rem, 3vw, 1.9rem);
+font-weight: 800;
+letter-spacing: -0.01em;
+position: relative;
+}
+.banner p {
+margin: 0;
+max-width: 60ch;
+font-size: 0.88rem;
+font-weight: 400;
+color: rgba(255, 255, 255, 0.88);
+position: relative;
+}
 
-  .wrap {
-    max-width: 1180px;
-    margin: -32px auto 24px;
-    padding: 0 20px;
-    position: relative;
-  }
+.wrap {
+max-width: 1180px;
+margin: -32px auto 24px;
+padding: 0 20px;
+position: relative;
+}
 
-  .layout {
-    display: flex;
-    align-items: flex-start;
-    gap: 20px;
-  }
+.layout {
+display: flex;
+align-items: flex-start;
+gap: 20px;
+}
 
-  .sidebar {
-    flex: 0 0 176px;
-    background: var(--card);
-    border-radius: 20px;
-    box-shadow: 0 24px 48px -24px rgba(179, 20, 20, 0.28), 0 2px 8px rgba(11, 11, 11, 0.06);
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-  .tab-btn {
-    appearance: none;
-    border: none;
-    background: none;
-    text-align: left;
-    font-family: inherit;
-    font-size: 0.92rem;
-    font-weight: 600;
-    color: var(--muted);
-    padding: 13px 14px;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: background 0.2s ease, color 0.2s ease;
-  }
-  .tab-btn:hover { background: var(--bg); color: var(--text); }
-  .tab-btn.active {
-    background: linear-gradient(135deg, var(--brand-red), var(--brand-red-dark));
-    color: var(--brand-white);
-  }
+.sidebar {
+flex: 0 0 176px;
+background: var(--card);
+border-radius: 20px;
+box-shadow: 0 24px 48px -24px rgba(179, 20, 20, 0.28), 0 2px 8px rgba(11, 11, 11, 0.06);
+padding: 10px;
+display: flex;
+flex-direction: column;
+gap: 4px;
+}
+.tab-btn {
+appearance: none;
+border: none;
+background: none;
+text-align: left;
+font-family: inherit;
+font-size: 0.92rem;
+font-weight: 600;
+color: var(--muted);
+padding: 13px 14px;
+border-radius: 12px;
+cursor: pointer;
+transition: background 0.2s ease, color 0.2s ease;
+}
+.tab-btn:hover { background: var(--bg); color: var(--text); }
+.tab-btn.active {
+background: linear-gradient(135deg, var(--brand-red), var(--brand-red-dark));
+color: var(--brand-white);
+}
 
-  .panels { flex: 1; min-width: 0; }
-  .panel { display: none; }
-  .panel.active { display: block; }
+.panels { flex: 1; min-width: 0; }
+.panel { display: none; }
+.panel.active { display: block; }
 
-  .empty-state {
-    padding: 64px 24px;
-    text-align: center;
-    color: var(--muted);
-    font-size: 0.95rem;
-  }
-  .empty-state strong {
-    display: block;
-    color: var(--brand-dark);
-    font-size: 1.1rem;
-    font-weight: 700;
-    margin-bottom: 8px;
-  }
+.empty-state {
+padding: 64px 24px;
+text-align: center;
+color: var(--muted);
+font-size: 0.95rem;
+}
+.empty-state strong {
+display: block;
+color: var(--brand-dark);
+font-size: 1.1rem;
+font-weight: 700;
+margin-bottom: 8px;
+}
 
-  .card {
-    background: var(--card);
-    border-radius: 20px;
-    overflow: hidden;
-    box-shadow: 0 24px 48px -24px rgba(179, 20, 20, 0.28), 0 2px 8px rgba(11, 11, 11, 0.06);
-  }
+.card {
+background: var(--card);
+border-radius: 20px;
+overflow: hidden;
+box-shadow: 0 24px 48px -24px rgba(179, 20, 20, 0.28), 0 2px 8px rgba(11, 11, 11, 0.06);
+}
 
-  .rank-grid { display: flex; }
-  .rank-grid table:first-child { border-right: 1px solid var(--border); }
-  table { width: 100%; border-collapse: collapse; }
-  thead th {
-    background: var(--brand-dark);
-    color: var(--brand-white);
-    font-weight: 600;
-    text-transform: uppercase;
-    font-size: 0.64rem;
-    letter-spacing: 0.06em;
-    text-align: left;
-    padding: 7px 14px;
-  }
-  thead th:first-child { padding-left: 18px; width: 46px; }
-  tbody td {
-    padding: 5px 14px;
-    border-bottom: 1px solid var(--border);
-    font-size: 0.8rem;
-    font-weight: 500;
-  }
-  tbody td:first-child { padding-left: 18px; }
-  tbody tr:last-child td { border-bottom: none; }
-  tbody tr:hover td { background: #FBF7F5; }
+.rank-grid { display: flex; }
+.rank-grid table:first-child { border-right: 1px solid var(--border); }
+table { width: 100%; border-collapse: collapse; }
+thead th {
+background: var(--brand-dark);
+color: var(--brand-white);
+font-weight: 600;
+text-transform: uppercase;
+font-size: 0.64rem;
+letter-spacing: 0.06em;
+text-align: left;
+padding: 7px 14px;
+}
+thead th:first-child { padding-left: 18px; width: 46px; }
+tbody td {
+padding: 5px 14px;
+border-bottom: 1px solid var(--border);
+font-size: 0.8rem;
+font-weight: 500;
+}
+tbody td:first-child { padding-left: 18px; }
+tbody tr:last-child td { border-bottom: none; }
+tbody tr:hover td { background: #FBF7F5; }
 
-  .rank-badge {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 23px;
-    height: 23px;
-    border-radius: 50%;
-    font-weight: 700;
-    font-size: 0.7rem;
-  }
-  .rank-badge.gold {
-    background: linear-gradient(160deg, #FFD874, var(--brand-amber));
-    color: var(--brand-dark);
-    font-size: 1.1rem;
-  }
-  .rank-badge.podium {
-    background: linear-gradient(160deg, var(--brand-red), var(--brand-red-dark));
-    color: var(--brand-white);
-  }
-  .rank-badge.runner {
-    background: linear-gradient(160deg, var(--brand-red), var(--brand-red-dark));
-    color: var(--brand-white);
-    font-size: 0.95rem;
-    animation: jitter-run 1s ease-in-out infinite;
-  }
-  .rank-badge.plain {
-    background: var(--bg);
-    color: var(--muted);
-    border: 1px solid var(--border);
-  }
-  .rank-badge.pineapple {
-    background: linear-gradient(160deg, #FFF3D6, var(--brand-amber));
-    color: var(--brand-dark);
-    font-size: 1.1rem;
-  }
-  @keyframes jitter-run {
-    0%, 100% { transform: translateX(0) rotate(0deg); }
-    25% { transform: translateX(1.5px) rotate(-6deg); }
-    75% { transform: translateX(-1.5px) rotate(6deg); }
-  }
+.rank-badge {
+display: inline-flex;
+align-items: center;
+justify-content: center;
+width: 23px;
+height: 23px;
+border-radius: 50%;
+font-weight: 700;
+font-size: 0.7rem;
+}
+.rank-badge.gold {
+background: linear-gradient(160deg, #FFD874, var(--brand-amber));
+color: var(--brand-dark);
+font-size: 1.1rem;
+}
+.rank-badge.podium {
+background: linear-gradient(160deg, var(--brand-red), var(--brand-red-dark));
+color: var(--brand-white);
+}
+.rank-badge.runner {
+background: linear-gradient(160deg, var(--brand-red), var(--brand-red-dark));
+color: var(--brand-white);
+font-size: 0.95rem;
+animation: jitter-run 1s ease-in-out infinite;
+}
+.rank-badge.plain {
+background: var(--bg);
+color: var(--muted);
+border: 1px solid var(--border);
+}
+.rank-badge.pineapple {
+background: linear-gradient(160deg, #FFF3D6, var(--brand-amber));
+color: var(--brand-dark);
+font-size: 1.1rem;
+}
+@keyframes jitter-run {
+0%, 100% { transform: translateX(0) rotate(0deg); }
+25% { transform: translateX(1.5px) rotate(-6deg); }
+75% { transform: translateX(-1.5px) rotate(6deg); }
+}
 
-  .franquia-cell { font-weight: 700; color: var(--brand-dark); }
-  .pontos-cell { font-weight: 700; color: var(--brand-red-dark); }
+.franquia-cell { font-weight: 700; color: var(--brand-dark); }
+.pontos-cell { font-weight: 700; color: var(--brand-red-dark); }
 
-  tr.top3 td { padding-top: 7px; padding-bottom: 7px; }
-  tr.top3 td.franquia-cell { font-size: 0.86rem; }
-  tr.top3 { background: linear-gradient(90deg, rgba(227,6,19,0.05), transparent 70%); }
+tr.top3 td { padding-top: 7px; padding-bottom: 7px; }
+tr.top3 td.franquia-cell { font-size: 0.86rem; }
+tr.top3 { background: linear-gradient(90deg, rgba(227,6,19,0.05), transparent 70%); }
 
-  tr[data-key] { position: relative; }
-  tr.kick-anim { animation: kick-jab 0.6s ease-in-out; z-index: 2; }
-  tr.bump-anim td { animation: bump-flinch 0.6s ease-in-out; }
-  @keyframes kick-jab {
-    0% { transform: translateX(0); }
-    30% { transform: translateX(7px) rotate(-1deg); }
-    55% { transform: translateX(-3px); }
-    100% { transform: translateX(0); }
-  }
-  @keyframes bump-flinch {
-    0% { background: transparent; }
-    30% { background: rgba(227,6,19,0.1); }
-    100% { background: transparent; }
-  }
-  tr.kick-anim td:first-child::after {
-    content: "👟💥";
-    position: absolute;
-    margin-left: 10px;
-    font-size: 0.85rem;
-    animation: boot-pop 0.8s ease-out forwards;
-  }
-  @keyframes boot-pop {
-    0% { opacity: 0; transform: translateX(-8px) scale(0.6); }
-    35% { opacity: 1; transform: translateX(6px) scale(1.15); }
-    100% { opacity: 0; transform: translateX(18px) scale(0.9); }
-  }
+tr[data-key] { position: relative; }
+tr.kick-anim { animation: kick-jab 0.6s ease-in-out; z-index: 2; }
+tr.bump-anim td { animation: bump-flinch 0.6s ease-in-out; }
+@keyframes kick-jab {
+0% { transform: translateX(0); }
+30% { transform: translateX(7px) rotate(-1deg); }
+55% { transform: translateX(-3px); }
+100% { transform: translateX(0); }
+}
+@keyframes bump-flinch {
+0% { background: transparent; }
+30% { background: rgba(227,6,19,0.1); }
+100% { background: transparent; }
+}
+tr.kick-anim td:first-child::after {
+content: "👟💥";
+position: absolute;
+margin-left: 10px;
+font-size: 0.85rem;
+animation: boot-pop 0.8s ease-out forwards;
+}
+@keyframes boot-pop {
+0% { opacity: 0; transform: translateX(-8px) scale(0.6); }
+35% { opacity: 1; transform: translateX(6px) scale(1.15); }
+100% { opacity: 0; transform: translateX(18px) scale(0.9); }
+}
 
-  .status {
-    padding: 56px 24px;
-    text-align: center;
-    color: var(--muted);
-    font-size: 0.95rem;
-  }
-  .status.error { color: var(--brand-red-dark); font-weight: 500; }
+.status {
+padding: 56px 24px;
+text-align: center;
+color: var(--muted);
+font-size: 0.95rem;
+}
+.status.error { color: var(--brand-red-dark); font-weight: 500; }
 
-  .footer {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 8px;
-    margin-top: 8px;
-    color: var(--muted);
-    font-size: 0.72rem;
-  }
-  @media (min-width: 641px) {
-    #panel-comercial .card { max-height: calc(100vh - 220px); overflow-y: auto; }
-  }
-  .live-dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: var(--brand-red);
-    animation: pulse 2.2s ease-in-out infinite;
-  }
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.35; }
-  }
+.footer {
+display: flex;
+align-items: center;
+justify-content: flex-end;
+gap: 8px;
+margin-top: 8px;
+color: var(--muted);
+font-size: 0.72rem;
+}
+@media (min-width: 641px) {
+#panel-comercial .card { max-height: calc(100vh - 220px); overflow-y: auto; }
+}
+.live-dot {
+width: 7px;
+height: 7px;
+border-radius: 50%;
+background: var(--brand-red);
+animation: pulse 2.2s ease-in-out infinite;
+}
+@keyframes pulse {
+0%, 100% { opacity: 1; }
+50% { opacity: 0.35; }
+}
 
-  @media (max-width: 640px) {
-    .banner { padding: 22px 16px 44px; }
-    .layout { flex-direction: column; }
-    .rank-grid { flex-direction: column; }
-    .rank-grid table:first-child { border-right: none; }
-    .sidebar {
-      flex-direction: row;
-      width: 100%;
-      overflow-x: auto;
-      padding: 8px;
-    }
-    .tab-btn { flex: 0 0 auto; white-space: nowrap; }
-    thead { display: none; }
-    tbody, tbody tr, tbody td { display: block; width: 100%; }
-    tbody tr {
-      padding: 16px 18px;
-      border-bottom: 1px solid var(--border);
-    }
-    tbody tr:last-child { border-bottom: none; }
-    tbody td {
-      border-bottom: none;
-      padding: 3px 0;
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-    }
-    tbody td:first-child { padding-left: 0; margin-bottom: 8px; }
-    tbody td:not(:first-child)::before {
-      content: attr(data-label);
-      color: var(--muted);
-      font-weight: 500;
-      font-size: 0.82rem;
-    }
-  }
+@media (max-width: 640px) {
+.banner { padding: 22px 16px 44px; }
+.layout { flex-direction: column; }
+.rank-grid { flex-direction: column; }
+.rank-grid table:first-child { border-right: none; }
+.sidebar {
+flex-direction: row;
+width: 100%;
+overflow-x: auto;
+padding: 8px;
+}
+.tab-btn { flex: 0 0 auto; white-space: nowrap; }
+thead { display: none; }
+tbody, tbody tr, tbody td { display: block; width: 100%; }
+tbody tr {
+padding: 16px 18px;
+border-bottom: 1px solid var(--border);
+}
+tbody tr:last-child { border-bottom: none; }
+tbody td {
+border-bottom: none;
+padding: 3px 0;
+display: flex;
+justify-content: space-between;
+gap: 12px;
+}
+tbody td:first-child { padding-left: 0; margin-bottom: 8px; }
+tbody td:not(:first-child)::before {
+content: attr(data-label);
+color: var(--muted);
+font-weight: 500;
+font-size: 0.82rem;
+}
+}
 
-  .gate {
-    padding: 64px 24px;
-    text-align: center;
-  }
-  .gate-icon { font-size: 2rem; margin-bottom: 12px; }
-  .gate h3 { margin: 0 0 6px; font-size: 1.15rem; color: var(--brand-dark); }
-  .gate p { margin: 0 0 22px; color: var(--muted); font-size: 0.9rem; }
-  .gate-form { display: flex; gap: 10px; justify-content: center; max-width: 320px; margin: 0 auto; }
-  .gate-form input {
-    flex: 1;
-    padding: 11px 14px;
-    border-radius: 10px;
-    border: 1px solid var(--border);
-    font-family: inherit;
-    font-size: 0.95rem;
-    outline: none;
-  }
-  .gate-form input:focus { border-color: var(--brand-red); }
-  .gate-form button {
-    border: none;
-    border-radius: 10px;
-    padding: 0 18px;
-    background: linear-gradient(135deg, var(--brand-red), var(--brand-red-dark));
-    color: #fff;
-    font-weight: 700;
-    font-family: inherit;
-    cursor: pointer;
-  }
-  .gate-error { color: var(--brand-red-dark); font-size: 0.85rem; margin-top: 12px; min-height: 1.2em; }
-  .gate-unlocked-btn {
-    border: none;
-    border-radius: 12px;
-    padding: 12px 22px;
-    background: linear-gradient(135deg, var(--brand-red), var(--brand-red-dark));
-    color: #fff;
-    font-weight: 700;
-    font-family: inherit;
-    font-size: 0.95rem;
-    cursor: pointer;
-  }
+.gate {
+padding: 64px 24px;
+text-align: center;
+}
+.gate-icon { font-size: 2rem; margin-bottom: 12px; }
+.gate h3 { margin: 0 0 6px; font-size: 1.15rem; color: var(--brand-dark); }
+.gate p { margin: 0 0 22px; color: var(--muted); font-size: 0.9rem; }
+.gate-form { display: flex; gap: 10px; justify-content: center; max-width: 320px; margin: 0 auto; }
+.gate-form input {
+flex: 1;
+padding: 11px 14px;
+border-radius: 10px;
+border: 1px solid var(--border);
+font-family: inherit;
+font-size: 0.95rem;
+outline: none;
+}
+.gate-form input:focus { border-color: var(--brand-red); }
+.gate-form button {
+border: none;
+border-radius: 10px;
+padding: 0 18px;
+background: linear-gradient(135deg, var(--brand-red), var(--brand-red-dark));
+color: #fff;
+font-weight: 700;
+font-family: inherit;
+cursor: pointer;
+}
+.gate-error { color: var(--brand-red-dark); font-size: 0.85rem; margin-top: 12px; min-height: 1.2em; }
+.gate-unlocked-btn {
+border: none;
+border-radius: 12px;
+padding: 12px 22px;
+background: linear-gradient(135deg, var(--brand-red), var(--brand-red-dark));
+color: #fff;
+font-weight: 700;
+font-family: inherit;
+font-size: 0.95rem;
+cursor: pointer;
+}
 
-  #criaia-takeover {
-    display: none;
-    position: fixed;
-    inset: 0;
-    z-index: 500;
-    background: #05070F;
-    overflow-y: auto;
-  }
-  #criaia-takeover.active { display: block; }
-  #criaia-exit {
-    position: fixed;
-    top: 14px;
-    right: 16px;
-    z-index: 600;
-    border: 1px solid rgba(232,236,255,.25);
-    background: rgba(11,11,11,.6);
-    color: #E8ECFF;
-    font-family: "Poppins", sans-serif;
-    font-size: 0.8rem;
-    font-weight: 600;
-    padding: 9px 14px;
-    border-radius: 10px;
-    cursor: pointer;
-    backdrop-filter: blur(8px);
-  }
-  #criaia-mount { min-height: 100vh; }
-  .criaia-loading {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #8A93B2;
-    font-family: "Poppins", sans-serif;
-    font-size: 0.95rem;
-  }
+#criaia-takeover {
+display: none;
+position: fixed;
+inset: 0;
+z-index: 500;
+background: #05070F;
+overflow-y: auto;
+}
+#criaia-takeover.active { display: block; }
+#criaia-exit {
+position: fixed;
+top: 14px;
+right: 16px;
+z-index: 600;
+border: 1px solid rgba(232,236,255,.25);
+background: rgba(11,11,11,.6);
+color: #E8ECFF;
+font-family: "Poppins", sans-serif;
+font-size: 0.8rem;
+font-weight: 600;
+padding: 9px 14px;
+border-radius: 10px;
+cursor: pointer;
+backdrop-filter: blur(8px);
+}
+#criaia-mount { min-height: 100vh; }
+.criaia-loading {
+min-height: 100vh;
+display: flex;
+align-items: center;
+justify-content: center;
+color: #8A93B2;
+font-family: "Poppins", sans-serif;
+font-size: 0.95rem;
+}
 </style>
 </head>
 <body>
-  <div class="banner">
-    <div class="brandmark">
-      <svg viewBox="0 0 26 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M9 0C4 0 0 4.2 0 9.4c0 4.6 3 8 7 8 .6 0 1.1-.1 1.6-.2C7.4 21.6 4.8 22 4.8 22l1 2h1.4c4-1.6 6.8-6 6.8-11C14 4.6 11.8 0 9 0Z" fill="#FAB219"/>
-        <path d="M21 0c-5 0-9 4.2-9 9.4 0 4.6 3 8 7 8 .6 0 1.1-.1 1.6-.2-1.2 3.8-3.8 4.2-3.8 4.2l1 2h1.4c4-1.6 6.8-6 6.8-11C26 4.6 23.8 0 21 0Z" fill="#FAB219"/>
-      </svg>
-      <span>INSTITUTO MIX</span>
-    </div>
-    <h1 id="page-title">Ranking Comercial - SP01</h1>
-    <p>Seja sempre 1% melhor que ontem e 1% pior que amanhã.</p>
-  </div>
+<div class="banner">
+<div class="brandmark">
+<svg viewBox="0 0 26 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M9 0C4 0 0 4.2 0 9.4c0 4.6 3 8 7 8 .6 0 1.1-.1 1.6-.2C7.4 21.6 4.8 22 4.8 22l1 2h1.4c4-1.6 6.8-6 6.8-11C14 4.6 11.8 0 9 0Z" fill="#FAB219"/>
+<path d="M21 0c-5 0-9 4.2-9 9.4 0 4.6 3 8 7 8 .6 0 1.1-.1 1.6-.2-1.2 3.8-3.8 4.2-3.8 4.2l1 2h1.4c4-1.6 6.8-6 6.8-11C26 4.6 23.8 0 21 0Z" fill="#FAB219"/>
+</svg>
+<span>INSTITUTO MIX</span>
+</div>
+<h1 id="page-title">Ranking Comercial - SP01</h1>
+<p>Seja sempre 1% melhor que ontem e 1% pior que amanhã.</p>
+</div>
 
-  <div class="wrap">
-    <div class="layout">
-      <nav class="sidebar" aria-label="Selecionar ranking">
-        <button class="tab-btn active" data-tab="comercial" data-title="Ranking Comercial - SP01">Comercial</button>
-        <button class="tab-btn" data-tab="financeiro" data-title="Ranking Financeiro - SP01">Financeiro</button>
-        <button class="tab-btn" data-tab="pedagogico" data-title="Ranking Pedagógico - SP01">Pedagógico</button>
-        <button class="tab-btn" data-tab="agentes" data-title="Agentes IA - SP01">Agentes IA</button>
-      </nav>
+<div class="wrap">
+<div class="layout">
+<nav class="sidebar" aria-label="Selecionar ranking">
+<button class="tab-btn active" data-tab="comercial" data-title="Ranking Comercial - SP01">Comercial</button>
+<button class="tab-btn" data-tab="financeiro" data-title="Ranking Financeiro - SP01">Financeiro</button>
+<button class="tab-btn" data-tab="pedagogico" data-title="Ranking Pedagógico - SP01">Pedagógico</button>
+<button class="tab-btn" data-tab="agentes" data-title="Agentes IA - SP01">Agentes IA</button>
+</nav>
 
-      <div class="panels">
-        <section class="panel active" id="panel-comercial">
-          <div class="card">
-            <div id="content" class="status">Carregando ranking...</div>
-          </div>
-          <div class="footer">
-            <span class="live-dot"></span>
-            <span id="updated">conectando com a planilha...</span>
-          </div>
-        </section>
+<div class="panels">
+<section class="panel active" id="panel-comercial">
+<div class="card">
+<div id="content" class="status">Carregando ranking...</div>
+</div>
+<div class="footer">
+<span class="live-dot"></span>
+<span id="updated">conectando com a planilha...</span>
+</div>
+</section>
 
-        <section class="panel" id="panel-financeiro">
-          <div class="card">
-            <div class="empty-state">
-              <strong>Ranking Financeiro em construção</strong>
-              Regras e critérios de pontuação ainda serão definidos.
-            </div>
-          </div>
-        </section>
+<section class="panel" id="panel-financeiro">
+<div class="card">
+<div class="empty-state">
+<strong>Ranking Financeiro em construção</strong>
+Regras e critérios de pontuação ainda serão definidos.
+</div>
+</div>
+</section>
 
-        <section class="panel" id="panel-pedagogico">
-          <div class="card">
-            <div class="empty-state">
-              <strong>Ranking Pedagógico em construção</strong>
-              Índices e métricas ainda serão definidos.
-            </div>
-          </div>
-        </section>
+<section class="panel" id="panel-pedagogico">
+<div class="card">
+<div class="empty-state">
+<strong>Ranking Pedagógico em construção</strong>
+Índices e métricas ainda serão definidos.
+</div>
+</div>
+</section>
 
-        <section class="panel" id="panel-agentes">
-          <div class="card">
-            <div class="gate" id="gate-form-wrap">
-              <div class="gate-icon">🔒</div>
-              <h3>Área restrita</h3>
-              <p>Digite a senha pra acessar o CriaIA.</p>
-              <div class="gate-form">
-                <input type="password" id="gate-input" placeholder="Senha" autocomplete="off" />
-                <button id="gate-submit">Entrar</button>
-              </div>
-              <div class="gate-error" id="gate-error"></div>
-            </div>
-            <div class="gate" id="gate-unlocked" style="display:none;">
-              <div class="gate-icon">✅</div>
-              <h3>Acesso liberado</h3>
-              <p>Clique abaixo pra abrir o CriaIA (tela cheia).</p>
-              <button class="gate-unlocked-btn" id="gate-open">🚀 Abrir CriaIA</button>
-            </div>
-          </div>
-        </section>
-      </div>
-    </div>
-  </div>
+<section class="panel" id="panel-agentes">
+<div class="card">
+<div class="gate" id="gate-form-wrap">
+<div class="gate-icon">🔒</div>
+<h3>Área restrita</h3>
+<p>Digite a senha pra acessar o CriaIA.</p>
+<div class="gate-form">
+<input type="password" id="gate-input" placeholder="Senha" autocomplete="off" />
+<button id="gate-submit">Entrar</button>
+</div>
+<div class="gate-error" id="gate-error"></div>
+</div>
+<div class="gate" id="gate-unlocked" style="display:none;">
+<div class="gate-icon">✅</div>
+<h3>Acesso liberado</h3>
+<p>Clique abaixo pra abrir o CriaIA (tela cheia).</p>
+<button class="gate-unlocked-btn" id="gate-open">🚀 Abrir CriaIA</button>
+</div>
+</div>
+</section>
+</div>
+</div>
+</div>
 
-  <div id="criaia-takeover">
-    <button id="criaia-exit">← Voltar ao Ranking</button>
-    <div id="criaia-mount"><div class="criaia-loading">Carregando CriaIA…</div></div>
-  </div>
+<div id="criaia-takeover">
+<button id="criaia-exit">← Voltar ao Ranking</button>
+<div id="criaia-mount"><div class="criaia-loading">Carregando CriaIA…</div></div>
+</div>
 
 <script>
 // ==== CONFIGURAR AQUI ====
@@ -478,215 +478,215 @@ const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:
 let prevOrder = null; // nomes das franquias na ordem do ciclo anterior, pra detectar ultrapassagem
 
 async function load() {
-  const contentEl = document.getElementById("content");
-  const updatedEl = document.getElementById("updated");
-  const card = document.querySelector("#panel-comercial .card");
-  try {
-    const res = await fetch(url);
-    const text = await res.text();
-    const json = JSON.parse(text.substring(47, text.length - 2));
+const contentEl = document.getElementById("content");
+const updatedEl = document.getElementById("updated");
+const card = document.querySelector("#panel-comercial .card");
+try {
+const res = await fetch(url);
+const text = await res.text();
+const json = JSON.parse(text.substring(47, text.length - 2));
 
-    const cols = json.table.cols.map(c => c.label || "");
-    const rows = json.table.rows.map(r => r.c.map(cell => (cell ? cell.v : "")));
+const cols = json.table.cols.map(c => c.label || "");
+const rows = json.table.rows.map(r => r.c.map(cell => (cell ? cell.v : "")));
 
-    if (rows.length === 0) {
-      contentEl.textContent = "Sem dados na planilha ainda.";
-      return;
-    }
+if (rows.length === 0) {
+contentEl.textContent = "Sem dados na planilha ainda.";
+return;
+}
 
-    // Colunas fixas: Franquia, Matrículas, Faturamento, Pontos
-    const ranked = rows.slice().sort((a, b) => Number(b[3] || 0) - Number(a[3] || 0));
-    const newOrder = ranked.map(r => String(r[0]));
+// Colunas fixas: Franquia, Matrículas, Faturamento, Pontos
+const ranked = rows.slice().sort((a, b) => Number(b[3] || 0) - Number(a[3] || 0));
+const newOrder = ranked.map(r => String(r[0]));
 
-    // Detecta quem ultrapassou (subiu) e quem foi ultrapassado (desceu) desde o último ciclo
-    const kicked = new Set();
-    const bumped = new Set();
-    if (prevOrder) {
-      const prevIndex = {};
-      prevOrder.forEach((name, i) => { prevIndex[name] = i; });
-      newOrder.forEach((name, i) => {
-        if (prevIndex[name] === undefined) return;
-        if (i < prevIndex[name]) kicked.add(name);
-        if (i > prevIndex[name]) bumped.add(name);
-      });
-    }
+// Detecta quem ultrapassou (subiu) e quem foi ultrapassado (desceu) desde o último ciclo
+const kicked = new Set();
+const bumped = new Set();
+if (prevOrder) {
+const prevIndex = {};
+prevOrder.forEach((name, i) => { prevIndex[name] = i; });
+newOrder.forEach((name, i) => {
+if (prevIndex[name] === undefined) return;
+if (i < prevIndex[name]) kicked.add(name);
+if (i > prevIndex[name]) bumped.add(name);
+});
+}
 
-    // Guarda a posição atual das linhas antes de trocar o conteúdo (pra animação FLIP)
-    const oldRects = {};
-    document.querySelectorAll("tbody tr[data-key]").forEach(row => {
-      oldRects[row.dataset.key] = row.getBoundingClientRect();
-    });
+// Guarda a posição atual das linhas antes de trocar o conteúdo (pra animação FLIP)
+const oldRects = {};
+document.querySelectorAll("tbody tr[data-key]").forEach(row => {
+oldRects[row.dataset.key] = row.getBoundingClientRect();
+});
 
-    const formatInt = n => Number(n || 0).toLocaleString("pt-BR");
-    const formatMoney = n => Number(n || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+const formatInt = n => Number(n || 0).toLocaleString("pt-BR");
+const formatMoney = n => Number(n || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 
-    function buildRow(row, i) {
-      const name = String(row[0]);
-      const isLast = i === ranked.length - 1 && ranked.length > 1;
-      let badgeClass = "plain";
-      let badgeContent = i + 1;
-      if (i === 0) { badgeClass = "gold"; badgeContent = "👑"; }
-      else if (i === 1) { badgeClass = "runner"; badgeContent = "🏃"; }
-      else if (i === 2) { badgeClass = "podium"; badgeContent = i + 1; }
-      if (isLast) { badgeClass = "pineapple"; badgeContent = "🍍"; }
+function buildRow(row, i) {
+const name = String(row[0]);
+const isLast = i === ranked.length - 1 && ranked.length > 1;
+let badgeClass = "plain";
+let badgeContent = i + 1;
+if (i === 0) { badgeClass = "gold"; badgeContent = "👑"; }
+else if (i === 1) { badgeClass = "runner"; badgeContent = "🏃"; }
+else if (i === 2) { badgeClass = "podium"; badgeContent = i + 1; }
+if (isLast) { badgeClass = "pineapple"; badgeContent = "🍍"; }
 
-      const rowClasses = [];
-      if (i < 3) rowClasses.push("top3");
-      if (kicked.has(name)) rowClasses.push("kick-anim");
-      if (bumped.has(name)) rowClasses.push("bump-anim");
+const rowClasses = [];
+if (i < 3) rowClasses.push("top3");
+if (kicked.has(name)) rowClasses.push("kick-anim");
+if (bumped.has(name)) rowClasses.push("bump-anim");
 
-      let rowHtml = `<tr data-key="${escapeHtml(name)}" class="${rowClasses.join(" ")}">`;
-      rowHtml += `<td><span class="rank-badge ${badgeClass}">${badgeContent}</span></td>`;
-      rowHtml += `<td class="franquia-cell" data-label="${escapeHtml(cols[0])}">${escapeHtml(row[0])}</td>`;
-      rowHtml += `<td data-label="${escapeHtml(cols[1])}">${formatInt(row[1])}</td>`;
-      rowHtml += `<td data-label="${escapeHtml(cols[2])}">${formatMoney(row[2])}</td>`;
-      rowHtml += `<td class="pontos-cell" data-label="${escapeHtml(cols[3])}">${formatInt(row[3])}</td>`;
-      rowHtml += `</tr>`;
-      return rowHtml;
-    }
+let rowHtml = `<tr data-key="${escapeHtml(name)}" class="${rowClasses.join(" ")}">`;
+rowHtml += `<td><span class="rank-badge ${badgeClass}">${badgeContent}</span></td>`;
+rowHtml += `<td class="franquia-cell" data-label="${escapeHtml(cols[0])}">${escapeHtml(row[0])}</td>`;
+rowHtml += `<td data-label="${escapeHtml(cols[1])}">${formatInt(row[1])}</td>`;
+rowHtml += `<td data-label="${escapeHtml(cols[2])}">${formatMoney(row[2])}</td>`;
+rowHtml += `<td class="pontos-cell" data-label="${escapeHtml(cols[3])}">${formatInt(row[3])}</td>`;
+rowHtml += `</tr>`;
+return rowHtml;
+}
 
-    function buildTable(rowsWithIndex) {
-      let t = "<table><thead><tr><th>#</th>";
-      cols.forEach(c => t += `<th>${escapeHtml(c)}</th>`);
-      t += "</tr></thead><tbody>";
-      rowsWithIndex.forEach(([row, i]) => t += buildRow(row, i));
-      t += "</tbody></table>";
-      return t;
-    }
+function buildTable(rowsWithIndex) {
+let t = "<table><thead><tr><th>#</th>";
+cols.forEach(c => t += `<th>${escapeHtml(c)}</th>`);
+t += "</tr></thead><tbody>";
+rowsWithIndex.forEach(([row, i]) => t += buildRow(row, i));
+t += "</tbody></table>";
+return t;
+}
 
-    const indexed = ranked.map((row, i) => [row, i]);
-    const half = Math.ceil(indexed.length / 2);
-    const col1 = indexed.slice(0, half);
-    const col2 = indexed.slice(half);
+const indexed = ranked.map((row, i) => [row, i]);
+const half = Math.ceil(indexed.length / 2);
+const col1 = indexed.slice(0, half);
+const col2 = indexed.slice(half);
 
-    let html = '<div class="rank-grid">';
-    html += buildTable(col1);
-    if (col2.length) html += buildTable(col2);
-    html += "</div>";
+let html = '<div class="rank-grid">';
+html += buildTable(col1);
+if (col2.length) html += buildTable(col2);
+html += "</div>";
 
-    card.innerHTML = html;
-    updatedEl.textContent = "Atualizado às " + new Date().toLocaleTimeString("pt-BR");
+card.innerHTML = html;
+updatedEl.textContent = "Atualizado às " + new Date().toLocaleTimeString("pt-BR");
 
-    // Anima o deslocamento de posição (FLIP): linha nasce onde estava, desliza pra onde está agora
-    requestAnimationFrame(() => {
-      document.querySelectorAll("tbody tr[data-key]").forEach(row => {
-        const oldRect = oldRects[row.dataset.key];
-        if (!oldRect) return;
-        const newRect = row.getBoundingClientRect();
-        const deltaY = oldRect.top - newRect.top;
-        if (Math.abs(deltaY) < 1) return;
-        row.style.transition = "none";
-        row.style.transform = `translateY(${deltaY}px)`;
-        requestAnimationFrame(() => {
-          row.style.transition = "transform 0.5s cubic-bezier(0.22, 1, 0.36, 1)";
-          row.style.transform = "";
-        });
-      });
-    });
+// Anima o deslocamento de posição (FLIP): linha nasce onde estava, desliza pra onde está agora
+requestAnimationFrame(() => {
+document.querySelectorAll("tbody tr[data-key]").forEach(row => {
+const oldRect = oldRects[row.dataset.key];
+if (!oldRect) return;
+const newRect = row.getBoundingClientRect();
+const deltaY = oldRect.top - newRect.top;
+if (Math.abs(deltaY) < 1) return;
+row.style.transition = "none";
+row.style.transform = `translateY(${deltaY}px)`;
+requestAnimationFrame(() => {
+row.style.transition = "transform 0.5s cubic-bezier(0.22, 1, 0.36, 1)";
+row.style.transform = "";
+});
+});
+});
 
-    prevOrder = newOrder;
-  } catch (err) {
-    card.innerHTML = `<div class="status error">Erro ao carregar planilha. Confira o ID e o compartilhamento.</div>`;
-    updatedEl.textContent = "";
-    console.error(err);
-  }
+prevOrder = newOrder;
+} catch (err) {
+card.innerHTML = `<div class="status error">Erro ao carregar planilha. Confira o ID e o compartilhamento.</div>`;
+updatedEl.textContent = "";
+console.error(err);
+}
 }
 
 function escapeHtml(v) {
-  return String(v ?? "").replace(/[&<>"']/g, c => ({
-    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
-  }[c]));
+return String(v ?? "").replace(/[&<>"']/g, c => ({
+"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+}[c]));
 }
 
 document.querySelectorAll(".tab-btn").forEach(btn => {
-  btn.addEventListener("click", () => {
-    document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
-    btn.classList.add("active");
-    document.querySelectorAll(".panel").forEach(p => p.classList.remove("active"));
-    document.getElementById("panel-" + btn.dataset.tab).classList.add("active");
-    document.getElementById("page-title").textContent = btn.dataset.title;
-    if (btn.dataset.tab === "agentes") atualizarGate();
-  });
+btn.addEventListener("click", () => {
+document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+btn.classList.add("active");
+document.querySelectorAll(".panel").forEach(p => p.classList.remove("active"));
+document.getElementById("panel-" + btn.dataset.tab).classList.add("active");
+document.getElementById("page-title").textContent = btn.dataset.title;
+if (btn.dataset.tab === "agentes") atualizarGate();
+});
 });
 
 // ==== ÁREA RESTRITA: CRIAIA ====
 // Aviso: essa senha só bloqueia visualmente. Qualquer pessoa que abrir o
 // código-fonte da página (Ctrl+U) consegue ver o valor abaixo. Não serve
 // pra proteger dado sensível de verdade, só pra afastar curioso casual.
-const CRIAIA_SENHA = "Igor1110";
+const CRIAIA_SENHA = "Igor123";
 
 function atualizarGate() {
-  const desbloqueado = sessionStorage.getItem("criaia_unlocked") === "1";
-  document.getElementById("gate-form-wrap").style.display = desbloqueado ? "none" : "block";
-  document.getElementById("gate-unlocked").style.display = desbloqueado ? "block" : "none";
+const desbloqueado = sessionStorage.getItem("criaia_unlocked") === "1";
+document.getElementById("gate-form-wrap").style.display = desbloqueado ? "none" : "block";
+document.getElementById("gate-unlocked").style.display = desbloqueado ? "block" : "none";
 }
 atualizarGate();
 
 document.getElementById("gate-submit").addEventListener("click", tentarSenha);
 document.getElementById("gate-input").addEventListener("keydown", e => { if (e.key === "Enter") tentarSenha(); });
 function tentarSenha() {
-  const input = document.getElementById("gate-input");
-  const erro = document.getElementById("gate-error");
-  if (input.value === CRIAIA_SENHA) {
-    sessionStorage.setItem("criaia_unlocked", "1");
-    input.value = "";
-    erro.textContent = "";
-    atualizarGate();
-  } else {
-    erro.textContent = "Senha incorreta.";
-    input.value = "";
-    input.focus();
-  }
+const input = document.getElementById("gate-input");
+const erro = document.getElementById("gate-error");
+if (input.value === CRIAIA_SENHA) {
+sessionStorage.setItem("criaia_unlocked", "1");
+input.value = "";
+erro.textContent = "";
+atualizarGate();
+} else {
+erro.textContent = "Senha incorreta.";
+input.value = "";
+input.focus();
+}
 }
 
 document.getElementById("gate-open").addEventListener("click", () => {
-  document.getElementById("criaia-takeover").classList.add("active");
-  carregarCriaIA();
+document.getElementById("criaia-takeover").classList.add("active");
+carregarCriaIA();
 });
 document.getElementById("criaia-exit").addEventListener("click", () => {
-  document.getElementById("criaia-takeover").classList.remove("active");
+document.getElementById("criaia-takeover").classList.remove("active");
 });
 
 let criaiaCarregado = false;
 function carregarScript(src) {
-  return new Promise((resolve, reject) => {
-    const s = document.createElement("script");
-    s.src = src;
-    s.onload = resolve;
-    s.onerror = () => reject(new Error("Falha ao carregar " + src));
-    document.head.appendChild(s);
-  });
+return new Promise((resolve, reject) => {
+const s = document.createElement("script");
+s.src = src;
+s.onload = resolve;
+s.onerror = () => reject(new Error("Falha ao carregar " + src));
+document.head.appendChild(s);
+});
 }
 
 async function carregarCriaIA() {
-  if (criaiaCarregado) return;
-  const mount = document.getElementById("criaia-mount");
-  try {
-    if (!window.React) await carregarScript("https://unpkg.com/react@18/umd/react.production.min.js");
-    if (!window.ReactDOM) await carregarScript("https://unpkg.com/react-dom@18/umd/react-dom.production.min.js");
-    if (!window.Babel) await carregarScript("https://unpkg.com/@babel/standalone@7/babel.min.js");
+if (criaiaCarregado) return;
+const mount = document.getElementById("criaia-mount");
+try {
+if (!window.React) await carregarScript("https://unpkg.com/react@18/umd/react.production.min.js");
+if (!window.ReactDOM) await carregarScript("https://unpkg.com/react-dom@18/umd/react-dom.production.min.js");
+if (!window.Babel) await carregarScript("https://unpkg.com/@babel/standalone@7/babel.min.js");
 
-    const res = await fetch("criaia.jsx");
-    if (!res.ok) throw new Error("Não achei o arquivo criaia.jsx (HTTP " + res.status + ")");
-    let src = await res.text();
+const res = await fetch("criaia.jsx");
+if (!res.ok) throw new Error("Não achei o arquivo criaia.jsx (HTTP " + res.status + ")");
+let src = await res.text();
 
-    // Adapta o arquivo (feito pra bundler/ES modules) pro carregamento direto via CDN + Babel standalone
-    src = src.replace(
-      /^import React, \{ useState, useRef, useEffect \} from "react";/m,
-      'const { useState, useRef, useEffect } = React;'
-    );
-    src = src.replace(/^export default function App/m, "function App");
+// Adapta o arquivo (feito pra bundler/ES modules) pro carregamento direto via CDN + Babel standalone
+src = src.replace(
+/^import React, \{ useState, useRef, useEffect \} from "react";/m,
+'const { useState, useRef, useEffect } = React;'
+);
+src = src.replace(/^export default function App/m, "function App");
 
-    const compilado = Babel.transform(src, { presets: ["react"] }).code;
-    const AppComponent = new Function("React", compilado + "\nreturn App;")(window.React);
+const compilado = Babel.transform(src, { presets: ["react"] }).code;
+const AppComponent = new Function("React", compilado + "\nreturn App;")(window.React);
 
-    const root = ReactDOM.createRoot(mount);
-    root.render(React.createElement(AppComponent));
-    criaiaCarregado = true;
-  } catch (err) {
-    mount.innerHTML = '<div class="criaia-loading">Erro ao carregar o CriaIA: ' + escapeHtml(err.message) + "</div>";
-    console.error(err);
-  }
+const root = ReactDOM.createRoot(mount);
+root.render(React.createElement(AppComponent));
+criaiaCarregado = true;
+} catch (err) {
+mount.innerHTML = '<div class="criaia-loading">Erro ao carregar o CriaIA: ' + escapeHtml(err.message) + "</div>";
+console.error(err);
+}
 }
 
 load();
