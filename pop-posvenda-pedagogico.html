@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>POP — Pós-Venda Pedagógico | Instituto Mix</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --brand-red:#E30613;
+    --brand-red-dark:#B4050F;
+    --brand-amber:#FAB219;
+    --brand-white:#FFFFFF;
+    --brand-dark:#0B0B0B;
+    --bg:#FAFAFA;
+    --card:#FFFFFF;
+    --text-muted:#6B6B6B;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{
+    font-family:'Poppins',sans-serif;
+    background:var(--bg);
+    color:var(--brand-dark);
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1000px;margin:0 auto;padding:0 20px 60px;}
+
+  /* HERO */
+  .hero{
+    background:linear-gradient(135deg,var(--brand-red) 0%,var(--brand-red-dark) 100%);
+    color:#fff;
+    padding:56px 20px 90px;
+    text-align:center;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero::after{
+    content:'';
+    position:absolute;
+    bottom:-60px;left:50%;
+    transform:translateX(-50%);
+    width:120%;
+    height:120px;
+    background:var(--bg);
+    border-radius:50% 50% 0 0/100% 100% 0 0;
+  }
+  .quote-mark{
+    font-size:52px;
+    color:var(--brand-amber);
+    font-weight:900;
+    line-height:1;
+    margin-bottom:6px;
+  }
+  .eyebrow{
+    letter-spacing:4px;
+    font-size:12px;
+    font-weight:600;
+    opacity:.85;
+    text-transform:uppercase;
+    margin-bottom:14px;
+  }
+  .hero h1{
+    font-size:38px;
+    font-weight:800;
+    max-width:640px;
+    margin:0 auto 16px;
+  }
+  .hero p{
+    max-width:620px;
+    margin:0 auto;
+    font-size:15.5px;
+    font-weight:400;
+    opacity:.95;
+  }
+  .hero p b{font-weight:700;color:var(--brand-amber);}
+
+  .badges{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-top:26px;
+    position:relative;
+    z-index:2;
+  }
+  .badge{
+    background:rgba(255,255,255,.15);
+    border:1px solid rgba(255,255,255,.35);
+    backdrop-filter:blur(4px);
+    padding:8px 16px;
+    border-radius:999px;
+    font-size:12.5px;
+    font-weight:600;
+  }
+
+  /* SECTION TITLES */
+  .section-label{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    font-size:12px;
+    font-weight:700;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    color:var(--brand-red);
+    margin:44px 0 14px;
+  }
+  .section-label .dot{
+    width:8px;height:8px;border-radius:50%;background:var(--brand-amber);
+  }
+
+  /* WHEN CARD */
+  .when-card{
+    background:var(--card);
+    border-radius:20px;
+    padding:26px 28px;
+    box-shadow:0 4px 20px rgba(0,0,0,.06);
+    display:flex;
+    align-items:center;
+    gap:20px;
+    border-left:6px solid var(--brand-amber);
+  }
+  .when-icon{
+    flex:0 0 auto;
+    width:56px;height:56px;
+    border-radius:16px;
+    background:linear-gradient(135deg,var(--brand-amber),#e39a10);
+    display:flex;align-items:center;justify-content:center;
+    font-size:26px;
+  }
+  .when-text b{color:var(--brand-red);}
+  .when-text{font-size:14.5px;color:#333;}
+
+  /* ACCORDION */
+  .accordion{
+    background:var(--card);
+    border-radius:16px;
+    margin-bottom:12px;
+    box-shadow:0 2px 10px rgba(0,0,0,.05);
+    overflow:hidden;
+    border:1px solid #f0e6e7;
+  }
+  .accordion-head{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding:18px 22px;
+    cursor:pointer;
+    user-select:none;
+    transition:background .2s;
+  }
+  .accordion-head:hover{background:#fff6f6;}
+  .accordion-num{
+    flex:0 0 auto;
+    width:34px;height:34px;
+    border-radius:10px;
+    background:var(--brand-red);
+    color:#fff;
+    display:flex;align-items:center;justify-content:center;
+    font-weight:700;font-size:14px;
+  }
+  .accordion-title{
+    flex:1;
+    font-weight:700;
+    font-size:15.5px;
+    color:var(--brand-dark);
+  }
+  .accordion-title span{
+    display:block;font-weight:400;font-size:12px;color:var(--text-muted);margin-top:2px;
+  }
+  .chevron{
+    width:30px;height:30px;
+    border-radius:50%;
+    background:var(--brand-red);
+    box-shadow:0 2px 6px rgba(227,6,19,.35);
+    display:flex;align-items:center;justify-content:center;
+    transition:transform .3s, background .2s;
+    font-size:15px;
+    font-weight:900;
+    color:#fff;
+    flex:0 0 auto;
+  }
+  .accordion-head:hover .chevron{background:var(--brand-red-dark);}
+  .accordion.open .chevron{transform:rotate(180deg);}
+  .accordion-body{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height .35s ease;
+  }
+  .accordion-inner{
+    padding:0 22px 22px 70px;
+  }
+  .checklist{list-style:none;}
+  .checklist li{
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+    font-size:14px;
+    color:#333;
+    padding:7px 0;
+    border-bottom:1px dashed #eee;
+  }
+  .checklist li:last-child{border-bottom:none;}
+  .chk{
+    flex:0 0 auto;
+    width:18px;height:18px;
+    border-radius:6px;
+    border:2px solid var(--brand-red);
+    margin-top:1px;
+    cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    font-size:11px;
+    color:#fff;
+    transition:background .15s;
+  }
+  .chk.checked{background:var(--brand-red);}
+  .tip{
+    margin-top:12px;
+    background:#FFF7E6;
+    border:1px solid #FAE2A6;
+    border-radius:12px;
+    padding:12px 14px;
+    font-size:13px;
+    color:#7a5900;
+    display:flex;
+    gap:10px;
+    align-items:flex-start;
+  }
+
+  /* SCRIPT STEPS */
+  .steps{display:flex;flex-direction:column;gap:10px;}
+  .step{
+    display:flex;
+    gap:12px;
+    align-items:flex-start;
+    background:#fafafa;
+    border-radius:12px;
+    padding:12px 14px;
+    border-left:3px solid var(--brand-red);
+  }
+  .step b{color:var(--brand-red-dark);}
+  .step-emoji{font-size:18px;}
+  .closing-line{
+    margin-top:14px;
+    background:var(--brand-red);
+    color:#fff;
+    border-radius:14px;
+    padding:16px 18px;
+    font-size:14px;
+    font-style:italic;
+    position:relative;
+  }
+  .closing-line .qm{
+    color:var(--brand-amber);
+    font-weight:900;
+    font-size:22px;
+    margin-right:4px;
+  }
+
+  /* REGISTRY EXAMPLE */
+  .registry-box{
+    background:#111;
+    color:#eee;
+    border-radius:12px;
+    padding:16px 18px;
+    font-size:13px;
+    font-family:'Poppins',monospace;
+    line-height:1.6;
+    border-left:4px solid var(--brand-amber);
+  }
+  .registry-box .lbl{color:var(--brand-amber);font-weight:700;}
+  .dont{
+    margin-top:10px;
+    font-size:13px;
+    color:#a30000;
+    background:#FDEBEB;
+    border-radius:10px;
+    padding:10px 14px;
+  }
+
+  /* FINAL CHECKLIST GRID */
+  .final-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
+    gap:12px;
+    margin-top:16px;
+  }
+  .final-item{
+    background:linear-gradient(135deg,#fff,#fff6f6);
+    border:1.5px solid #f6d9d9;
+    border-radius:14px;
+    padding:16px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    cursor:pointer;
+    transition:transform .15s, box-shadow .15s;
+  }
+  .final-item:hover{transform:translateY(-3px);box-shadow:0 6px 16px rgba(227,6,19,.12);}
+  .final-item .circle{
+    flex:0 0 auto;
+    width:30px;height:30px;
+    border-radius:50%;
+    border:2px solid var(--brand-red);
+    display:flex;align-items:center;justify-content:center;
+    font-size:14px;
+    transition:background .15s,color .15s;
+  }
+  .final-item.done .circle{background:var(--brand-red);color:#fff;}
+  .final-item.done span.label{text-decoration:line-through;color:#999;}
+  .final-item .label{font-size:13.5px;font-weight:600;}
+
+  /* PROGRESS */
+  .progress-wrap{
+    margin-top:18px;
+    background:#f0f0f0;
+    border-radius:999px;
+    height:10px;
+    overflow:hidden;
+  }
+  .progress-bar{
+    height:100%;
+    width:0%;
+    background:linear-gradient(90deg,var(--brand-amber),var(--brand-red));
+    transition:width .3s ease;
+  }
+  .progress-label{
+    font-size:12px;
+    color:var(--text-muted);
+    margin-top:6px;
+    text-align:right;
+  }
+
+  footer{
+    text-align:center;
+    margin-top:50px;
+    padding-top:24px;
+    border-top:1px solid #eee;
+    font-size:12px;
+    color:var(--text-muted);
+  }
+  footer b{color:var(--brand-red);}
+
+  /* NAV / PAGES */
+  .topnav{position:sticky;top:0;z-index:50;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.07);}
+  .topnav-inner{max-width:1000px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:12px 20px;flex-wrap:wrap;gap:10px;}
+  .topnav-logo{font-weight:800;color:var(--brand-red);font-size:15px;letter-spacing:.5px;}
+  .topnav-tabs{display:flex;gap:8px;flex-wrap:wrap;}
+  .nav-tab{border:none;background:#f4f4f4;color:#555;font-family:'Poppins',sans-serif;font-weight:600;font-size:12.5px;padding:9px 16px;border-radius:999px;cursor:pointer;transition:all .2s;}
+  .nav-tab:hover{background:#ffe6e6;color:var(--brand-red);}
+  .nav-tab.active{background:var(--brand-red);color:#fff;}
+  .page{display:none;}
+  .page.active{display:block;}
+
+  /* DDA extras */
+  .sub-h{font-size:12px;font-weight:700;color:var(--brand-red);text-transform:uppercase;letter-spacing:1px;margin:16px 0 6px;}
+  .sub-h:first-child{margin-top:0;}
+  .im-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px;border-radius:10px;overflow:hidden;}
+  .im-table th{background:var(--brand-red);color:#fff;text-align:left;padding:9px 12px;font-size:11.5px;text-transform:uppercase;letter-spacing:.5px;font-weight:600;}
+  .im-table td{padding:9px 12px;border-bottom:1px solid #eee;color:#333;background:#fff;}
+  .im-table tr:nth-child(even) td{background:#fafafa;}
+  .im-table td:first-child{font-weight:600;color:var(--brand-red-dark);}
+  .materials-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:6px;}
+  .material-card{background:#fff;border-radius:16px;padding:18px 20px;box-shadow:0 2px 10px rgba(0,0,0,.05);border-top:4px solid var(--brand-amber);}
+  .material-card h4{font-size:14px;color:var(--brand-red);margin-bottom:10px;}
+  .material-card ul{list-style:none;font-size:13.5px;color:#333;}
+  .material-card ul li{padding:4px 0;display:flex;gap:8px;align-items:flex-start;}
+  .material-card ul li::before{content:'•';color:var(--brand-amber);font-weight:900;}
+  .anexos-list{list-style:none;display:flex;flex-direction:column;gap:8px;margin-top:6px;}
+  .anexos-list li{background:#fff;border-radius:12px;padding:12px 16px;font-size:13.5px;color:#333;box-shadow:0 2px 8px rgba(0,0,0,.04);display:flex;gap:10px;align-items:center;}
+  .anexos-list a{color:var(--brand-red);font-weight:600;text-decoration:none;}
+  .anexos-list a:hover{text-decoration:underline;}
+  .final-message{
+    margin-top:18px;
+    background:linear-gradient(135deg,var(--brand-red) 0%,var(--brand-red-dark) 100%);
+    color:#fff;
+    border-radius:18px;
+    padding:26px 26px;
+    font-size:14.5px;
+    line-height:1.7;
+  }
+  .final-message b{color:var(--brand-amber);}
+
+  .warn-card{
+    background:#FFF5F5;
+    border-radius:20px;
+    padding:22px 24px;
+    box-shadow:0 4px 20px rgba(0,0,0,.05);
+    display:flex;
+    align-items:flex-start;
+    gap:18px;
+    border-left:6px solid var(--brand-red);
+    margin-top:14px;
+  }
+  .warn-icon{
+    flex:0 0 auto;
+    width:50px;height:50px;
+    border-radius:14px;
+    background:linear-gradient(135deg,var(--brand-red),var(--brand-red-dark));
+    display:flex;align-items:center;justify-content:center;
+    font-size:22px;
+  }
+  .warn-text{font-size:14px;color:#333;}
+  .warn-text b{color:var(--brand-red);}
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="topnav-inner">
+    <div class="topnav-logo">Instituto Mix</div>
+    <div class="topnav-tabs">
+      <button class="nav-tab active" id="tab-page-posvenda" onclick="showPage('page-posvenda')">Pós-Venda Pedagógico</button>
+      <button class="nav-tab" id="tab-page-dda" onclick="showPage('page-dda')">DDA · Minha Primeira Aula</button>
+    </div>
+  </div>
+</nav>
+
+<div class="page active" id="page-posvenda">
+
+<div class="hero">
+  <div class="quote-mark">"</div>
+  <div class="eyebrow">Instituto Mix · Pedagógico</div>
+  <h1>Pós-Venda Pedagógico</h1>
+  <p>O <b>primeiro gesto de cuidado</b> do pedagógico com o aluno após a matrícula. Mais do que confirmar dados, esse contato mostra atenção, compromisso e acolhimento — o boca a boca de um aluno satisfeito é o marketing mais poderoso que existe.</p>
+  <div class="badges">
+    <div class="badge">⏱ Até 24h após matrícula</div>
+    <div class="badge">📉 Reduz evasão</div>
+    <div class="badge">💬 Gera indicações</div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <div class="section-label"><span class="dot"></span>Quando fazer</div>
+  <div class="when-card">
+    <div class="when-icon">⏰</div>
+    <div class="when-text">
+      Deve ser realizado em <b>até 24 horas</b> após a matrícula registrada no SGF. Priorize os alunos do dia anterior e mantenha rotina diária de acompanhamento.
+    </div>
+  </div>
+
+  <div class="section-label"><span class="dot"></span>Passo a passo</div>
+
+  <div class="accordion open" data-acc>
+    <div class="accordion-head" onclick="toggleAcc(this)">
+      <div class="accordion-num">1</div>
+      <div class="accordion-title">Antes de começar<span>Preparação e checagem de dados</span></div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="accordion-body">
+      <div class="accordion-inner">
+        <ul class="checklist">
+          <li><span class="chk" onclick="toggleChk(this)"></span>Acesse o SGF &gt; Comercial &gt; Contratos &gt; Data de cadastro = dia anterior</li>
+          <li><span class="chk" onclick="toggleChk(this)"></span>Confira curso, período, dia e horário da aula</li>
+          <li><span class="chk" onclick="toggleChk(this)"></span>Confira telefone e WhatsApp corretos</li>
+          <li><span class="chk" onclick="toggleChk(this)"></span>Confira se as EADs estão cadastradas corretamente</li>
+          <li><span class="chk" onclick="toggleChk(this)"></span>Verifique se tem GPP ou Negócio na Prática</li>
+          <li><span class="chk" onclick="toggleChk(this)"></span>Confira se o financeiro está correto</li>
+          <li><span class="chk" onclick="toggleChk(this)"></span>Veja observações e melhor horário de contato no Histórico</li>
+          <li><span class="chk" onclick="toggleChk(this)"></span>Escolha um local silencioso, com bateria e sinal OK</li>
+          <li><span class="chk" onclick="toggleChk(this)"></span>Tenha à mão: lista de contatos, script e bloco de anotações</li>
+        </ul>
+        <div class="tip">💡 <div><b>Dica:</b> o ideal é ligar no mesmo período em que o aluno estudará — isso aumenta as chances de contato.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion" data-acc>
+    <div class="accordion-head" onclick="toggleAcc(this)">
+      <div class="accordion-num">2</div>
+      <div class="accordion-title">Durante o contato<span>Como conduzir a ligação/mensagem</span></div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="accordion-body">
+      <div class="accordion-inner">
+        <div class="steps">
+          <div class="step"><span class="step-emoji">😊</span><div>Seja <b>gentil e acolhedor(a)</b>: o pós-venda é o primeiro "olá" do pedagógico. Apresente-se brevemente e mostre entusiasmo.</div></div>
+          <div class="step"><span class="step-emoji">👂</span><div><b>Ouça</b> o aluno antes de confirmar informações.</div></div>
+          <div class="step"><span class="step-emoji">✅</span><div><b>Confirme:</b> curso, período, dia e horário da aula.</div></div>
+          <div class="step"><span class="step-emoji">🎉</span><div><b>Convide:</b> reforce a data e hora da primeira aula.</div></div>
+          <div class="step"><span class="step-emoji">📌</span><div><b>Oriente:</b> informe sobre o grupo da turma e canais de comunicação.</div></div>
+          <div class="step"><span class="step-emoji">💰</span><div><b>Confirme o financeiro:</b> verifique se o aluno está ciente da data de vencimento das parcelas e do desconto pontualidade.</div></div>
+          <div class="step"><span class="step-emoji">📲</span><div><b>Pergunte</b> se já baixou e acessou o Mundo IM.</div></div>
+          <div class="step"><span class="step-emoji">📝</span><div><b>Confirme</b> se assinou o contrato e se tem dúvidas.</div></div>
+          <div class="step"><span class="step-emoji">🌟</span><div><b>Finalize</b> com positividade.</div></div>
+        </div>
+        <div class="closing-line"><span class="qm">"</span>Qualquer dúvida, pode contar comigo! Estamos muito felizes em ter você com a gente.<span class="qm">"</span></div>
+        <div class="tip">🙂 Sorriso na voz faz toda diferença — o aluno percebe acolhimento mesmo pelo telefone.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion" data-acc>
+    <div class="accordion-head" onclick="toggleAcc(this)">
+      <div class="accordion-num">3</div>
+      <div class="accordion-title">Após o contato<span>Registro obrigatório no SGF</span></div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="accordion-body">
+      <div class="accordion-inner">
+        <p style="font-size:13.5px;margin-bottom:10px;">SGF &gt; Contrato &gt; Aba Histórico — Tipo de histórico: <b>Pós-venda pedagógico</b> (ligação) ou <b>Pós-venda Whats</b> (mensagem escrita).</p>
+        <div class="registry-box">
+<span class="lbl">Exemplo de registro:</span><br>
+"Contato de boas-vindas realizado. Foi confirmado o curso Confeitaria, onde irá acontecer toda às segundas, 19h. Sua primeira aula do curso inicia dia 20/09. Foi confirmada todas as informações financeiras e ciência do desconto pontualidade, acesso na plataforma Mundo IM e obrigatoriedade de início imediato em suas EADs, e dúvidas referente ao contrato e coleta da assinatura sanadas. Aluna está animada e feliz com o início de sua jornada. — [Seu nome]"
+        </div>
+        <div class="dont">⚠️ Registre com clareza: quem, quando e o que foi tratado. Evite anotações genéricas como "pós-venda ok".</div>
+        <div class="tip">💬 <div><b>Contato via WhatsApp:</b> copie e cole a conversa completa com o aluno — incluindo o retorno dele — direto no histórico de pós-venda.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-label"><span class="dot"></span>Checklist final</div>
+  <p style="font-size:13.5px;color:var(--text-muted);margin-bottom:4px;">Clique nos itens conforme for concluindo o atendimento:</p>
+  <div class="final-section">
+    <div class="final-grid">
+      <div class="final-item" onclick="toggleFinal(this)"><div class="circle">✓</div><span class="label">Contato realizado em até 24h</span></div>
+      <div class="final-item" onclick="toggleFinal(this)"><div class="circle">✓</div><span class="label">Histórico completo e claro</span></div>
+      <div class="final-item" onclick="toggleFinal(this)"><div class="circle">✓</div><span class="label">Aluno convidado para a 1ª aula</span></div>
+      <div class="final-item" onclick="toggleFinal(this)"><div class="circle">✓</div><span class="label">Incluído no grupo da turma</span></div>
+      <div class="final-item" onclick="toggleFinal(this)"><div class="circle">✓</div><span class="label">Atendimento com empatia e boa energia</span></div>
+    </div>
+    <div class="progress-wrap"><div class="progress-bar"></div></div>
+    <div class="progress-label">0 de 5 concluídos</div>
+  </div>
+
+  <footer>
+    <b>Instituto Mix</b> — Procedimento Operacional Padrão · Pós-Venda Pedagógico
+  </footer>
+</div>
+</div><!-- /page-posvenda -->
+
+<div class="page" id="page-dda">
+
+<div class="hero">
+  <div class="quote-mark">"</div>
+  <div class="eyebrow">Instituto Mix · Pedagógico</div>
+  <h1>Minha Primeira Aula (DDA)</h1>
+  <p>O <b>primeiro encontro oficial</b> do aluno com a escola, equipe e método IM. Mais que orientações práticas, essa aula marca o início da transformação do aluno — o nascimento do sonho.</p>
+  <div class="badges">
+    <div class="badge">🤝 Acolhida</div>
+    <div class="badge">✨ Encantamento</div>
+    <div class="badge">💞 Conexão com o sonho</div>
+    <div class="badge">🏫 Cultura IM</div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <div class="section-label"><span class="dot"></span>Propósito</div>
+  <div class="when-card">
+    <div class="when-icon">🎯</div>
+    <div class="when-text">
+      Nós não apenas recebemos um novo aluno. <b>Nós apresentamos o caminho para um sonho real.</b> Todo detalhe importa: tom de voz, sorriso, organização, carinho e verdade. Primeira aula bem feita = aluno confiante, motivado e firme na jornada.
+    </div>
+  </div>
+
+  <div class="section-label"><span class="dot"></span>Quando fazer</div>
+  <div class="when-card">
+    <div class="when-icon">📅</div>
+    <div class="when-text">
+      Organize <b>preferencialmente por semana</b>, podendo ser dentro da contratada ou a seguinte caso o aluno(a) não consiga comparecer. Envie boas-vindas e realize a ligação de agendamento/confirmação da aula Inaugural, envie lembrete 1 dia antes e no dia confirme.
+    </div>
+  </div>
+
+  <div class="warn-card">
+    <div class="warn-icon">⚠️</div>
+    <div class="warn-text">
+      <b>Atenção:</b> registrar em histórico (ocorrência: Agendamento Minha Primeira Aula / Ligação DDA) sempre com a informação correta passada ao aluno(a) — nunca apenas "Realizado, ok".
+    </div>
+  </div>
+
+  <div class="warn-card">
+    <div class="warn-icon">🎥</div>
+    <div class="warn-text">
+      <b>Atenção:</b> caso o aluno realize a aula de forma online, registrar em histórico o motivo e solicitar o envio do certificado de realização.
+    </div>
+  </div>
+
+  <div class="section-label"><span class="dot"></span>Passo a passo</div>
+
+  <div class="accordion open" data-acc>
+    <div class="accordion-head" onclick="toggleAcc(this)">
+      <div class="accordion-num">1</div>
+      <div class="accordion-title">Antes de começar<span>Preparação obrigatória, ambiente e comunicação</span></div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="accordion-body">
+      <div class="accordion-inner">
+        <div class="sub-h">Preparação obrigatória</div>
+        <ul class="checklist">
+          <li><span class="chk" onclick="toggleChk(this)"></span>Conferir alunos e imprimir lista de presença</li>
+          <li><span class="chk" onclick="toggleChk(this)"></span>Alinhar equipe e orientadores</li>
+          <li><span class="chk" onclick="toggleChk(this)"></span>Separar mimo simples (bombom, bilhetinhos, etc.)</li>
+          <li><span class="chk" onclick="toggleChk(this)"></span>Agendar o horário da aula para não ter intercorrências de atendimento</li>
+        </ul>
+        <div class="sub-h">Ambiente</div>
+        <ul class="checklist">
+          <li><span class="chk" onclick="toggleChk(this)"></span>Preparar sala com carinho</li>
+          <li><span class="chk" onclick="toggleChk(this)"></span>Testar som, TV/projeção e wi-fi</li>
+          <li><span class="chk" onclick="toggleChk(this)"></span>Música leve no fundo</li>
+          <li><span class="chk" onclick="toggleChk(this)"></span>Mesa organizada e limpa</li>
+        </ul>
+        <div class="sub-h">Comunicação</div>
+        <ul class="checklist">
+          <li><span class="chk" onclick="toggleChk(this)"></span>Ensaiar apresentação e dinâmica</li>
+          <li><span class="chk" onclick="toggleChk(this)"></span>Preparar mensagem de boas-vindas</li>
+          <li><span class="chk" onclick="toggleChk(this)"></span>Disponibilizar cartão / carta de boas-vindas</li>
+        </ul>
+        <div class="tip">✨ <div><b>Dica:</b> use frases curtas, sorriso na voz, entusiasmo e simplicidade.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion" data-acc>
+    <div class="accordion-head" onclick="toggleAcc(this)">
+      <div class="accordion-num">2</div>
+      <div class="accordion-title">Tom da comunicação<span>Como falar com o aluno</span></div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="accordion-body">
+      <div class="accordion-inner">
+        <p style="font-size:14px;margin-bottom:12px;">Acolhimento + simplicidade + verdade + entusiasmo.</p>
+        <div class="closing-line"><span class="qm">"</span>Seu sonho começa hoje.<span class="qm">"</span></div>
+        <div class="closing-line"><span class="qm">"</span>Você está no lugar certo.<span class="qm">"</span></div>
+        <div class="closing-line"><span class="qm">"</span>Estamos com você nessa jornada.<span class="qm">"</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion" data-acc>
+    <div class="accordion-head" onclick="toggleAcc(this)">
+      <div class="accordion-num">3</div>
+      <div class="accordion-title">Durante a aula<span>Antes, durante e depois do encontro</span></div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="accordion-body">
+      <div class="accordion-inner">
+        <div class="sub-h">Antes da aula</div>
+        <div class="steps">
+          <div class="step"><span class="step-emoji">🚪</span><div>Receba na <b>porta da sala</b>.</div></div>
+          <div class="step"><span class="step-emoji">😀</span><div>Cumprimente <b>desejando boas-vindas</b>.</div></div>
+          <div class="step"><span class="step-emoji">🌟</span><div>Demonstre <b>orgulho e alegria</b>.</div></div>
+          <div class="step"><span class="step-emoji">💛</span><div>Mostre que ele é <b>importante</b>.</div></div>
+        </div>
+
+        <div class="sub-h">Durante a aula</div>
+        <table class="im-table">
+          <tr><th>Momento</th><th>Objetivo</th></tr>
+          <tr><td>Boas-vindas e propósito</td><td>Criar conexão e emoção</td></tr>
+          <tr><td>Cultura IM</td><td>Mostrar valores e sonho</td></tr>
+          <tr><td>Como funciona</td><td>Explicar jornada, livros, plataforma</td></tr>
+          <tr><td>Tour pela escola</td><td>Familiaridade e segurança</td></tr>
+          <tr><td>Dinâmica</td><td>Gerar vínculo e leveza</td></tr>
+          <tr><td>Benefícios IM</td><td>Fazer ele sentir orgulho</td></tr>
+          <tr><td>Expectativas</td><td>Escuta ativa e acolhimento</td></tr>
+        </table>
+
+        <div class="sub-h">Depois da aula</div>
+        <div class="steps">
+          <div class="step"><span class="step-emoji">📸</span><div>Tire uma foto com os alunos.</div></div>
+          <div class="step"><span class="step-emoji">🗂</span><div>Registre o histórico de participação do aluno.</div></div>
+          <div class="step"><span class="step-emoji">📞</span><div>Contatar faltantes com carinho e reagendar para a próxima aula.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion" data-acc>
+    <div class="accordion-head" onclick="toggleAcc(this)">
+      <div class="accordion-num">4</div>
+      <div class="accordion-title">Registro obrigatório<span>SGF &gt; Contrato &gt; Histórico</span></div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="accordion-body">
+      <div class="accordion-inner">
+        <p style="font-size:13.5px;margin-bottom:10px;">SGF &gt; Contrato &gt; Histórico — Tipo: <b>PARTICIPAÇÃO MINHA PRIMEIRA AULA (DDA)</b>.</p>
+        <div class="registry-box">
+<span class="lbl">Modelo de registro — Presencial:</span><br>
+"Aluno(a) esteve presente na aula inaugural DDA, realizada no dia 10/08 às 19h. Apresentação, tour, acolhimentos e dúvidas esclarecidas."
+        </div>
+        <div class="registry-box" style="margin-top:12px;">
+<span class="lbl">Modelo de registro — Online:</span><br>
+"Aluno(a) realizou a sua aula inaugural DDA via plataforma Mundo IM no dia 10/08 e obteve a nota 10,00."
+        </div>
+        <div class="dont">➡ Registros claros = gestão eficiente ✅</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-label"><span class="dot"></span>Materiais de apoio</div>
+  <div class="materials-grid">
+    <div class="material-card">
+      <h4>📁 Marketing Place</h4>
+      <ul>
+        <li>Cards de agendamento</li>
+        <li>Slides e backgrounds</li>
+        <li>Carta de boas-vindas</li>
+        <li>Cartazes "Bem-vindos"</li>
+        <li>Etiquetas para mimos</li>
+      </ul>
+    </div>
+    <div class="material-card">
+      <h4>📁 IMHUB</h4>
+      <p style="font-size:12px;color:var(--text-muted);font-weight:600;margin-bottom:8px;">IMHUB &gt; Biblioteca &gt; Pedagógico</p>
+      <ul>
+        <li>Scripts de integração</li>
+        <li>Textos e mensagens prontas</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section-label"><span class="dot"></span>Dicas essenciais</div>
+  <p style="font-size:13.5px;color:var(--text-muted);margin-bottom:4px;">Clique nos itens para marcar o que já aplicou:</p>
+  <div class="final-section">
+    <div class="final-grid">
+      <div class="final-item" onclick="toggleFinal(this)"><div class="circle">✓</div><span class="label">Sorria e chame pelo nome</span></div>
+      <div class="final-item" onclick="toggleFinal(this)"><div class="circle">✓</div><span class="label">Conte história real ou exemplo inspirador</span></div>
+      <div class="final-item" onclick="toggleFinal(this)"><div class="circle">✓</div><span class="label">Valorize o sonho dele</span></div>
+      <div class="final-item" onclick="toggleFinal(this)"><div class="circle">✓</div><span class="label">Surpreenda com pequenos gestos</span></div>
+      <div class="final-item" onclick="toggleFinal(this)"><div class="circle">✓</div><span class="label">Crie ambiente seguro e acolhedor</span></div>
+      <div class="final-item" onclick="toggleFinal(this)"><div class="circle">✓</div><span class="label">Não apresse o momento</span></div>
+      <div class="final-item" onclick="toggleFinal(this)"><div class="circle">✓</div><span class="label">Faça ele sentir que pertence</span></div>
+    </div>
+    <div class="progress-wrap"><div class="progress-bar"></div></div>
+    <div class="progress-label">0 de 7 concluídos</div>
+  </div>
+
+  <div class="final-message">
+    A primeira aula é o nascimento do sonho. Cada gesto, cada palavra e cada sorriso cria segurança e pertencimento. Nós cuidamos do aluno hoje para celebrar sua vitória amanhã ✨<br><br>
+    Primeira aula bem feita = base forte + aluno engajado + sonho vivo.
+  </div>
+
+  <footer>
+    <b>Instituto Mix</b> — Procedimento Operacional Padrão · Minha Primeira Aula (DDA)
+  </footer>
+</div>
+</div><!-- /page-dda -->
+
+<script>
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+  requestAnimationFrame(initAccordions);
+}
+function toggleAcc(head){
+  const acc = head.parentElement;
+  const body = acc.querySelector('.accordion-body');
+  if(acc.classList.contains('open')){
+    body.style.maxHeight = '0px';
+    acc.classList.remove('open');
+  } else {
+    acc.classList.add('open');
+    body.style.maxHeight = body.scrollHeight + 'px';
+  }
+}
+function initAccordions(){
+  document.querySelectorAll('.accordion.open').forEach(acc=>{
+    const body = acc.querySelector('.accordion-body');
+    body.style.maxHeight = body.scrollHeight + 'px';
+  });
+}
+window.addEventListener('load', initAccordions);
+function toggleChk(el){
+  el.classList.toggle('checked');
+  el.textContent = el.classList.contains('checked') ? '✓' : '';
+}
+function toggleFinal(el){
+  el.classList.toggle('done');
+  const section = el.closest('.final-section');
+  updateProgress(section);
+}
+function updateProgress(section){
+  const items = section.querySelectorAll('.final-item');
+  const done = section.querySelectorAll('.final-item.done').length;
+  const pct = Math.round((done/items.length)*100);
+  section.querySelector('.progress-bar').style.width = pct + '%';
+  section.querySelector('.progress-label').textContent = done + ' de ' + items.length + ' concluídos';
+}
+</script>
+
+</body>
+</html>

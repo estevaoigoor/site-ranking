@@ -122,6 +122,42 @@ color: var(--brand-white);
 .panel { display: none; }
 .panel.active { display: block; }
 
+.subnav {
+display: flex;
+gap: 8px;
+flex-wrap: wrap;
+padding: 14px 16px;
+border-bottom: 1px solid var(--border);
+}
+.subnav-btn {
+appearance: none;
+border: 1px solid var(--border);
+background: var(--bg);
+font-family: inherit;
+font-size: 0.85rem;
+font-weight: 600;
+color: var(--muted);
+padding: 9px 16px;
+border-radius: 999px;
+cursor: pointer;
+transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+.subnav-btn:hover { color: var(--text); }
+.subnav-btn.active {
+background: linear-gradient(135deg, var(--brand-red), var(--brand-red-dark));
+border-color: transparent;
+color: var(--brand-white);
+}
+.subpanel { display: none; }
+.subpanel.active { display: block; }
+.embed-frame {
+display: block;
+width: 100%;
+height: calc(100vh - 260px);
+min-height: 600px;
+border: none;
+}
+
 .empty-state {
 padding: 64px 24px;
 text-align: center;
@@ -431,9 +467,14 @@ Regras e critérios de pontuação ainda serão definidos.
 
 <section class="panel" id="panel-pedagogico">
 <div class="card">
-<div class="empty-state">
-<strong>Ranking Pedagógico em construção</strong>
-Índices e métricas ainda serão definidos.
+<nav class="subnav" aria-label="Selecionar submenu pedagógico">
+<button class="subnav-btn" data-sub="posvenda-dda">📋 Pós Venda / DDA</button>
+</nav>
+<div class="subpanel active" id="sub-placeholder">
+<div class="empty-state">Selecione um item do menu acima para ver o conteúdo.</div>
+</div>
+<div class="subpanel" id="sub-posvenda-dda">
+<iframe class="embed-frame" data-src="pop-posvenda-pedagogico.html" title="Pós Venda / DDA"></iframe>
 </div>
 </div>
 </section>
@@ -597,6 +638,23 @@ return String(v ?? "").replace(/[&<>"']/g, c => ({
 "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
 }[c]));
 }
+
+document.querySelectorAll(".subnav-btn").forEach(btn => {
+btn.addEventListener("click", () => {
+const subnav = btn.closest(".subnav");
+subnav.querySelectorAll(".subnav-btn").forEach(b => b.classList.remove("active"));
+btn.classList.add("active");
+const panel = subnav.closest(".panel");
+panel.querySelectorAll(".subpanel").forEach(p => p.classList.remove("active"));
+const target = document.getElementById("sub-" + btn.dataset.sub);
+target.classList.add("active");
+const iframe = target.querySelector("iframe[data-src]");
+if (iframe) {
+iframe.src = iframe.dataset.src;
+iframe.removeAttribute("data-src");
+}
+});
+});
 
 document.querySelectorAll(".tab-btn").forEach(btn => {
 btn.addEventListener("click", () => {
